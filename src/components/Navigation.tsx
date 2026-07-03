@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 interface NavigationProps {
@@ -62,10 +62,11 @@ const Navigation = ({
             <motion.div whileHover={{
             scale: 1.02
           }} className="flex items-center gap-2 cursor-pointer">
-              <Home className={`h-4 w-4 ${isMobileMenuOpen || isDark || !isScrolled ? "text-white" : "text-primary"}`} />
-              <span className={`text-sm font-normal tracking-wide ${isMobileMenuOpen || isDark || !isScrolled ? "text-white" : "text-foreground"}`}>
-                RUMA by EL Stay Treat
-              </span>
+              <img
+                src="/logo.png"
+                alt="RUMA by EL Stay Treat"
+                className={`h-8 w-auto object-contain transition-all duration-300 ${isMobileMenuOpen || isDark || !isScrolled ? "brightness-0 invert" : ""}`}
+              />
             </motion.div>
           </Link>
 

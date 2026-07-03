@@ -1,4 +1,4 @@
-import { Home, Instagram, Facebook, Twitter, Mail, Phone } from "lucide-react";
+import { Instagram, Facebook, Twitter, Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 const Footer = () => {
   return <footer className="bg-foreground text-background py-20 lg:py-24">
@@ -7,8 +7,7 @@ const Footer = () => {
           {/* Brand Row */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Home className="h-4 w-4" />
-              <span className="text-sm font-normal tracking-wide">RUMA by EL Stay Treat</span>
+              <img src="/logo.png" alt="RUMA by EL Stay Treat" className="h-10 w-auto brightness-0 invert" />
             </div>
             <p className="text-background/70 text-xs font-light leading-relaxed max-w-xs">
               A guarded, comfortable 3-bedroom homestay fully equipped for a home-like stay in Rivervale, KotaSAS.
