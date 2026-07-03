@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Tent } from "lucide-react";
+import { Menu, X, Home } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 interface NavigationProps {
@@ -37,7 +37,7 @@ const Navigation = ({
     }
   };
   const navItems = [{
-    label: "Locations",
+    label: "Rooms & Spaces",
     href: "/locations",
     isRoute: true
   }, {
@@ -62,9 +62,9 @@ const Navigation = ({
             <motion.div whileHover={{
             scale: 1.02
           }} className="flex items-center gap-2 cursor-pointer">
-              <Tent className={`h-4 w-4 ${isMobileMenuOpen || isDark || !isScrolled ? "text-white" : "text-primary"}`} />
+              <Home className={`h-4 w-4 ${isMobileMenuOpen || isDark || !isScrolled ? "text-white" : "text-primary"}`} />
               <span className={`text-sm font-normal tracking-wide ${isMobileMenuOpen || isDark || !isScrolled ? "text-white" : "text-foreground"}`}>
-                Wild Haven
+                RUMA by EL Stay Treat
               </span>
             </motion.div>
           </Link>

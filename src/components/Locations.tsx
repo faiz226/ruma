@@ -43,11 +43,7 @@ const Locations = () => {
           ))}
         </div>
         <div className="flex items-center justify-between">
-          <div>
-            <span className="text-xl font-light text-foreground">${location.price}</span>
-            <span className="text-muted-foreground text-xs font-light">/night</span>
-          </div>
-          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 text-xs font-light">
+          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 text-xs font-light ml-auto">
             View Details
             <ArrowRight className="ml-1 h-3 w-3" />
           </Button>
@@ -66,13 +62,13 @@ const Locations = () => {
           className="text-center mb-16"
         >
           <span className="text-[11px] uppercase tracking-wider text-muted-foreground mb-4 block">
-            Our Locations
+            Our Property
           </span>
           <h2 className="text-2xl md:text-3xl font-light mb-4 text-foreground tracking-tight">
-            Featured Spots
+            Rooms & Shared Spaces
           </h2>
           <p className="text-sm text-muted-foreground max-w-md mx-auto font-light">
-            Handpicked spots where nature's beauty meets sustainable comfort
+            Comfortable, air-conditioned rooms and spacious living areas for your family.
           </p>
         </motion.div>
 

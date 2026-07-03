@@ -74,7 +74,7 @@ const About = () => {
               
               <div className="space-y-6 text-muted-foreground font-light leading-relaxed">
                 <p>
-                  Wild Haven was born from a simple observation: in our hyper-connected world, true rest has become 
+                  RUMA by EL Stay Treat was born from a simple observation: in our hyper-connected world, true rest has become 
                   increasingly rare. We watched as screens replaced sunsets, notifications drowned out birdsong, 
                   and the constant hum of digital life left people feeling more disconnected than ever.
                 </p>
@@ -86,7 +86,7 @@ const About = () => {
                 <p>
                   Each of our locations has been carefully selected not just for its natural beauty, but for its 
                   ability to facilitate genuine restoration. From ancient forests to pristine lakeshores, every 
-                  Wild Haven retreat offers a doorway back to the rhythms that sustained humanity for millennia.
+                  RUMA by EL Stay Treat retreat offers a doorway back to the rhythms that sustained humanity for millennia.
                 </p>
               </div>
             </motion.div>
@@ -124,7 +124,7 @@ const About = () => {
                   we can live without.
                 </p>
                 <p>
-                  At Wild Haven, we believe that reconnecting with nature isn't an escape from reality—it's a 
+                  At RUMA by EL Stay Treat, we believe that reconnecting with nature isn't an escape from reality—it's a 
                   return to it. And in that return, we find not just rest, but renewal.
                 </p>
               </div>

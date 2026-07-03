@@ -1,31 +1,31 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Leaf, Wifi, Droplets, Sun } from "lucide-react";
+import { ShieldCheck, Wifi, Utensils, Car } from "lucide-react";
 
 const features = [
   {
-    icon: Leaf,
-    title: "100% Off-Grid",
-    description: "Completely sustainable living with solar power and composting systems",
+    icon: ShieldCheck,
+    title: "Guarded Area",
+    description: "Peace of mind with 24/7 security in a guarded neighborhood",
     videoUrl: "https://videos.pexels.com/video-files/4460100/4460100-hd_1920_1080_30fps.mp4",
   },
   {
     icon: Wifi,
-    title: "Digital Detox",
-    description: "No wifi, no signal - just pure connection with nature and yourself",
+    title: "Entertainment & Connectivity",
+    description: "Free high-speed WiFi and Netflix on Smart TV",
     videoUrl: "https://videos.pexels.com/video-files/4280450/4280450-hd_1920_1080_30fps.mp4",
   },
   {
-    icon: Droplets,
-    title: "Natural Water",
-    description: "Fresh spring water and eco-friendly facilities for your comfort",
+    icon: Utensils,
+    title: "Fully Equipped",
+    description: "Iron, kettle, cooker, microwave, washing machine & basic cooking essentials provided",
     videoUrl: "https://videos.pexels.com/video-files/5487781/5487781-hd_1920_1080_30fps.mp4",
   },
   {
-    icon: Sun,
-    title: "Scenic Views",
-    description: "Wake up to breathtaking sunrises in untouched wilderness",
+    icon: Car,
+    title: "Ample Parking",
+    description: "3 parking spaces available in the spacious porch",
     videoUrl: "https://videos.pexels.com/video-files/4460098/4460098-hd_1920_1080_30fps.mp4",
   },
 ];
@@ -45,13 +45,13 @@ const Experience = () => {
           className="text-center mb-20"
         >
           <span className="text-[11px] uppercase tracking-wider text-muted-foreground mb-4 block">
-            The Experience
+            Amenities
           </span>
           <h2 className="text-2xl md:text-3xl font-light mb-4 text-foreground tracking-tight">
-            Simplicity Meets Comfort
+            Everything You Need
           </h2>
           <p className="text-sm text-muted-foreground max-w-md mx-auto font-light">
-            Embrace simplicity without sacrificing comfort
+            Fully equipped for a home-like stay at Rivervale, KotaSAS.
           </p>
         </motion.div>
 

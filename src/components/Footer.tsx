@@ -1,4 +1,4 @@
-import { Tent, Instagram, Facebook, Twitter, Mail } from "lucide-react";
+import { Home, Instagram, Facebook, Twitter, Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 const Footer = () => {
   return <footer className="bg-foreground text-background py-20 lg:py-24">
@@ -7,11 +7,11 @@ const Footer = () => {
           {/* Brand Row */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Tent className="h-4 w-4" />
-              <span className="text-sm font-normal tracking-wide">Wild Haven</span>
+              <Home className="h-4 w-4" />
+              <span className="text-sm font-normal tracking-wide">RUMA by EL Stay Treat</span>
             </div>
             <p className="text-background/70 text-xs font-light leading-relaxed max-w-xs">
-              Creating meaningful connections with nature through sustainable off-grid experiences.
+              A guarded, comfortable 3-bedroom homestay fully equipped for a home-like stay in Rivervale, KotaSAS.
             </p>
           </div>
 
@@ -26,7 +26,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/locations" className="text-background/70 hover:text-background smooth-hover text-xs font-light">
-                  Locations
+                  Rooms & Spaces
                 </Link>
               </li>
               <li>
@@ -56,13 +56,14 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-medium mb-4">Contact Us</h4>
             <div className="flex flex-col gap-2 mb-8">
-              <a href="mailto:hello@wildhaven.com" className="text-background/70 hover:text-background smooth-hover text-xs font-light flex items-center gap-2">
-                <Mail className="h-3 w-3" />
-                hello@wildhaven.com
+              <a href="tel:01112983754" className="text-background/70 hover:text-background smooth-hover text-xs font-light flex items-center gap-2">
+                <Phone className="h-3 w-3" />
+                011-12983754 (Auni)
               </a>
-              <p className="text-background/70 text-xs font-light">
-                Mon - Fri: 9am - 5pm
-              </p>
+              <a href="mailto:hello@ruma-elstay.com" className="text-background/70 hover:text-background smooth-hover text-xs font-light flex items-center gap-2">
+                <Mail className="h-3 w-3" />
+                hello@ruma-elstay.com
+              </a>
             </div>
 
             <h4 className="text-sm font-medium mb-4">Follow Us</h4>
@@ -81,7 +82,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-background/20 pt-8 mt-12 text-center text-background/50 text-xs font-light">
-          <p>&copy; 2026 Wild Haven. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} RUMA by EL Stay Treat. All rights reserved.</p>
         </div>
       </div>
     </footer>;

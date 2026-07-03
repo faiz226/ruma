@@ -11,8 +11,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { toast } from "sonner";
-import { CalendarDays, Users, MapPin, ArrowRight, ArrowLeft, CheckCircle, User, Phone, Mail, MapPinned } from "lucide-react";
-import { locations } from "@/data/locations";
+import { CalendarDays, Users, ArrowRight, ArrowLeft, CheckCircle, User, Phone, Mail, MapPinned, CreditCard } from "lucide-react";
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -42,7 +41,6 @@ const Booking = () => {
     from: new Date(),
     to: undefined
   });
-  const [location, setLocation] = useState("");
   const [guests, setGuests] = useState("");
   
   // Step 2 fields
@@ -52,7 +50,7 @@ const Booking = () => {
   const [postcode, setPostcode] = useState("");
 
   const handleStep1Continue = () => {
-    if (!dateRange?.from || !dateRange?.to || !location || !guests) {
+    if (!dateRange?.from || !dateRange?.to || !guests) {
       toast.error("Please fill in all fields including check-in and check-out dates");
       return;
     }
@@ -85,7 +83,6 @@ const Booking = () => {
     setDirection(-1);
     setStep(1);
     setDateRange({ from: new Date(), to: undefined });
-    setLocation("");
     setGuests("");
     setName("");
     setPhone("");
@@ -93,9 +90,25 @@ const Booking = () => {
     setPostcode("");
   };
 
-  const getLocationLabel = (value: string) => {
-    const loc = locations.find(l => l.id === value);
-    return loc?.name || value;
+  const calculatePrice = () => {
+    if (!dateRange?.from || !dateRange?.to) return 0;
+    
+    let total = 0;
+    let currentDate = new Date(dateRange.from);
+    const endDate = new Date(dateRange.to);
+    
+    while (currentDate < endDate) {
+      const day = currentDate.getDay();
+      // Friday (5) and Saturday (6) are weekends
+      if (day === 5 || day === 6) {
+        total += 270;
+      } else {
+        total += 240;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    return total;
   };
 
   const formatDateRange = () => {
@@ -157,22 +170,13 @@ const Booking = () => {
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-6">
                       <div>
-                        <Label htmlFor="location" className="flex items-center gap-1.5 mb-3 text-card-foreground text-[11px] uppercase tracking-wider font-normal">
-                          <MapPin className="h-3 w-3" />
-                          Location
-                        </Label>
-                        <Select value={location} onValueChange={setLocation}>
-                          <SelectTrigger id="location" className="rounded-md text-sm font-light">
-                            <SelectValue placeholder="Select a location" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {locations.map((loc) => (
-                              <SelectItem key={loc.id} value={loc.id}>
-                                {loc.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <div className="bg-card/50 rounded-md p-4 mb-4 border border-border">
+                          <p className="text-sm font-medium mb-2">Homestay Pricing</p>
+                          <div className="text-xs text-muted-foreground space-y-1">
+                            <p>Weekday Rate: RM240 / night (Sun - Thu)</p>
+                            <p>Weekend Rate: RM270 / night (Fri - Sat)</p>
+                          </div>
+                        </div>
                       </div>
 
                       <div>
@@ -220,9 +224,14 @@ const Booking = () => {
                         disabled={(date) => date < new Date()}
                       />
                       {dateRange?.from && dateRange?.to && (
-                        <p className="text-xs text-muted-foreground font-light mt-2 text-center">
-                          {Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24))} nights selected
-                        </p>
+                        <div className="mt-4 p-3 bg-primary/10 rounded-md text-center">
+                          <p className="text-xs text-foreground font-medium">
+                            {Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24))} nights selected
+                          </p>
+                          <p className="text-sm font-semibold text-primary mt-1">
+                            Total: RM{calculatePrice()}
+                          </p>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -351,10 +360,10 @@ const Booking = () => {
                     <div className="bg-accent/30 rounded-md p-4 max-w-sm mx-auto text-left space-y-2">
                       <p className="text-xs text-muted-foreground uppercase tracking-wider">Booking Summary</p>
                       <div className="text-sm font-light text-foreground space-y-1">
-                        <p><span className="text-muted-foreground">Location:</span> {getLocationLabel(location)}</p>
+                        <p><span className="text-muted-foreground">Property:</span> RUMA by EL Stay Treat</p>
                         <p><span className="text-muted-foreground">Dates:</span> {formatDateRange()}</p>
                         <p><span className="text-muted-foreground">Guests:</span> {guests}</p>
-                        <p><span className="text-muted-foreground">Email:</span> {email}</p>
+                        <p className="font-medium text-primary mt-2 pt-2 border-t border-border"><span className="text-muted-foreground">Total Price:</span> RM{calculatePrice()}</p>
                       </div>
                     </div>
 

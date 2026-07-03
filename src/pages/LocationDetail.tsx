@@ -284,8 +284,7 @@ const LocationDetail = () => {
                 <Card className="p-8 border border-border shadow-soft">
                   <div className="mb-8">
                     <div className="flex items-baseline gap-2 mb-2">
-                      <span className="text-2xl font-light">${location.price}</span>
-                      <span className="text-xs text-muted-foreground font-light">/ night</span>
+                      <span className="text-sm font-medium text-primary">Included in Homestay</span>
                     </div>
                     <div className="flex items-center gap-1 text-xs">
                       <Star className="h-3 w-3 fill-primary text-primary" />
@@ -339,10 +338,10 @@ const LocationDetail = () => {
                     <Button
                       size="default"
                       className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-md smooth-hover text-[11px] uppercase tracking-wider font-normal"
-                      onClick={handleBooking}
+                      onClick={() => navigate("/#booking")}
                     >
                       <Calendar className="mr-2 h-4 w-4" />
-                      Reserve Now
+                      Book Homestay
                     </Button>
                   </div>
                 </Card>

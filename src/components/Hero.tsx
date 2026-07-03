@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, TreePine } from "lucide-react";
-import heroImage from "@/assets/hero-camping.jpg";
-import forestImage from "@/assets/spot-forest.jpg";
-import lakeImage from "@/assets/spot-lake.jpg";
-import meadowImage from "@/assets/spot-meadow.jpg";
+import { ArrowRight, Home } from "lucide-react";
+import img1 from "@/images/1.png";
+import img2 from "@/images/2.png";
+import img3 from "@/images/3.png";
+import img4 from "@/images/4.png";
 
 const slides = [
-  { image: heroImage, alt: "Off-grid camping in nature" },
-  { image: forestImage, alt: "Forest camping spot" },
-  { image: lakeImage, alt: "Lakeside retreat" },
-  { image: meadowImage, alt: "Meadow camping experience" },
+  { image: img1, alt: "RUMA by EL Stay Treat 1" },
+  { image: img2, alt: "RUMA by EL Stay Treat 2" },
+  { image: img3, alt: "RUMA by EL Stay Treat 3" },
+  { image: img4, alt: "RUMA by EL Stay Treat 4" },
 ];
 
 const SLIDE_DURATION = 5000;
@@ -73,7 +73,7 @@ const Hero = () => {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="mb-4"
         >
-          <TreePine className="w-6 h-6 text-white stroke-[1.5]" />
+          <Home className="w-6 h-6 text-white stroke-[1.5]" />
         </motion.div>
 
         {/* Headline */}
@@ -83,8 +83,9 @@ const Hero = () => {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight max-w-md text-left flex flex-col"
         >
-          <span>Disconnect</span>
-          <span>to Reconnect</span>
+          <span>RUMA by</span>
+          <span>EL Stay Treat</span>
+          <span className="text-2xl mt-4 italic text-white/90">"Feel at home"</span>
         </motion.h1>
 
         {/* CTA Button */}
