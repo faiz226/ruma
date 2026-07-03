@@ -65,7 +65,7 @@ const Navigation = ({
               <img
                 src="/logo.png"
                 alt="RUMA by EL Stay Treat"
-                className={`h-8 w-auto object-contain transition-all duration-300 ${isMobileMenuOpen || isDark || !isScrolled ? "brightness-0 invert" : ""}`}
+                className={`h-12 w-auto object-contain transition-all duration-300 ${isMobileMenuOpen || isDark || !isScrolled ? "brightness-0 invert" : ""}`}
               />
             </motion.div>
           </Link>
