@@ -60,8 +60,8 @@ const Booking = () => {
           return true;
         });
         setBookedDates(validBookings.map(b => ({
-          start: new Date(b.check_in),
-          end: new Date(b.check_out)
+          start: new Date(b.check_in + 'T00:00:00'),
+          end: new Date(b.check_out + 'T00:00:00')
         })));
       }
     };
