@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
-import { Calendar, Users, DollarSign, Mail, Phone, ArrowLeft, LogOut, Eye, CheckCircle, XCircle, Plus, Loader2, Edit3, ArrowUpDown } from "lucide-react";
+import { Calendar, Users, DollarSign, Mail, Phone, ArrowLeft, LogOut, Eye, CheckCircle, XCircle, Plus, Loader2, Edit3, ArrowUpDown, ChevronRight } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -39,6 +39,14 @@ const Admin = () => {
 
   type SortConfig = { key: 'guest_name' | 'dates' | 'status' | 'booking_ref', direction: 'asc' | 'desc' } | null;
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
+  const [expandedBookings, setExpandedBookings] = useState<Record<string, boolean>>({});
+
+  const toggleExpandRow = (id: string) => {
+    setExpandedBookings(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
@@ -452,6 +460,7 @@ const Admin = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="border-border">
+                      <TableHead className="w-10"></TableHead>
                       <TableHead className="text-[11px] uppercase tracking-wider font-normal cursor-pointer hover:bg-muted/50" onClick={() => handleSort('guest_name')}>
                         <div className="flex items-center">Guest <ArrowUpDown className="ml-1 h-3 w-3" /></div>
                       </TableHead>
@@ -470,12 +479,31 @@ const Admin = () => {
                   <TableBody>
                     {isLoading ? (
                        <TableRow>
-                         <TableCell colSpan={5} className="text-center py-12 text-sm text-muted-foreground">Loading bookings...</TableCell>
+                         <TableCell colSpan={6} className="text-center py-12 text-sm text-muted-foreground">Loading bookings...</TableCell>
                        </TableRow>
-                        ) : filteredBookings.map((booking) => {
+                         ) : filteredBookings.map((booking) => {
+                          const hasNote = booking.notes && booking.notes.trim();
+                          const isExpanded = !!expandedBookings[booking.id];
                           return (
-                            <TableRow key={booking.id} className="border-border">
-                              <TableCell>
+                            <Fragment key={booking.id}>
+                              <TableRow key={booking.id} className="border-border">
+                                <TableCell className="w-10">
+                                  {hasNote ? (
+                                    <Button
+                                      size="icon"
+                                      variant="ghost"
+                                      onClick={() => toggleExpandRow(booking.id)}
+                                      className="h-7 w-7 p-0 text-muted-foreground hover:text-primary transition-transform"
+                                    >
+                                      <ChevronRight className={`h-4 w-4 transition-transform duration-200 ${isExpanded ? 'rotate-90 text-primary' : ''}`} />
+                                    </Button>
+                                  ) : (
+                                    <div className="flex h-7 w-7 items-center justify-center text-muted-foreground/20 cursor-not-allowed">
+                                      <ChevronRight className="h-4 w-4" />
+                                    </div>
+                                  )}
+                                </TableCell>
+                                <TableCell>
                                 <div>
                                   <p className="text-sm font-normal">{booking.guest_name || booking.guestName}</p>
                                   <p className="text-xs text-muted-foreground font-light">{booking.booking_ref || booking.id}</p>
@@ -542,8 +570,20 @@ const Admin = () => {
                                 </div>
                               </TableCell>
                             </TableRow>
-                          );
-                        })}
+                            {isExpanded && hasNote && (
+                              <TableRow className="bg-muted/5 border-border">
+                                <TableCell />
+                                <TableCell colSpan={5} className="py-3 px-4 bg-muted/5">
+                                  <div className="flex flex-col gap-1 border-l-2 border-primary/30 pl-3 py-0.5 text-left">
+                                    <span className="font-medium text-foreground uppercase tracking-wider text-[9px]">Admin Remark / Notes</span>
+                                    <p className="whitespace-pre-wrap leading-relaxed text-xs font-light text-muted-foreground">{booking.notes}</p>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </Fragment>
+                        );
+                      })}
                       </TableBody>
                     </Table>
                   </div>
