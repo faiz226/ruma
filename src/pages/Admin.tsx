@@ -223,7 +223,6 @@ const Admin = () => {
   const stats = {
     total: bookings.length,
     upcoming: bookings.filter(b => new Date(b.check_in) >= new Date() && (b.status === 'PAID' || b.status === 'confirmed')).length,
-    pending: bookings.filter(b => b.status === 'PENDING_PAYMENT').length,
   };
 
   const calculateRevenue = () => {
@@ -337,7 +336,7 @@ const Admin = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10"
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10"
           >
             <Card className="p-6 border border-border shadow-soft">
               <div className="flex items-center gap-3 mb-3">
@@ -358,17 +357,6 @@ const Admin = () => {
               <p className="text-2xl font-light mb-1">{stats.upcoming}</p>
               <p className="text-xs text-muted-foreground font-light">Upcoming</p>
             </Card>
-            
-            <Card className="p-6 border border-border shadow-soft">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center">
-                  <Calendar className="h-4 w-4 text-yellow-600" />
-                </div>
-              </div>
-              <p className="text-2xl font-light mb-1">{stats.pending}</p>
-              <p className="text-xs text-muted-foreground font-light">Pending</p>
-            </Card>
-            
             <Card className="p-6 border border-border shadow-soft">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
