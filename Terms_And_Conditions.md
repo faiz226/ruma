@@ -9,18 +9,23 @@ Welcome to **RUMA by EL Stay Treat**. By booking your stay with us, you agree to
 
 ## 2. Check-In & Check-Out
 - **Check-In:** 3:00 PM onwards.
+- **Check-In Method:** [CONFIRM WITH CLIENT: Self-service via lockbox OR Meet host in person?]
 - **Check-Out:** 12:00 PM (Noon) strictly. 
 - Early check-in or late check-out is subject to availability and prior approval. Additional charges may apply.
 
 ## 3. House Rules
 To ensure a pleasant stay for everyone, please observe the following rules:
+- **Maximum Capacity:** The property accommodates a maximum of 5 guests.
 - **No Smoking:** Smoking is strictly prohibited inside the house. You may smoke in designated outdoor areas only.
 - **No Pets:** Pets are not allowed on the premises.
 - **No Parties/Events:** Quiet hours are from 10:00 PM to 8:00 AM to respect the neighbors.
 - **Cleanliness:** Please leave the house in a reasonably clean condition. Do not leave unwashed dishes or excessive trash.
 - **Security:** Ensure all doors and gates are securely locked when leaving the property.
 
-## 4. Liability
+## 4. Safety Disclosures
+- **Safety Equipment:** [CONFIRM WITH CLIENT: Are smoke alarms and carbon monoxide alarms currently installed on the property?]
+
+## 5. Liability
 The owner is not responsible for any accidents, injuries, or illnesses that occur while on the premises. The owner is not responsible for the loss of personal belongings or valuables of the guest.
 
 *These terms act as a basic guideline and can be customized further by the host.*

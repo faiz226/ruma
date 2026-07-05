@@ -26,6 +26,7 @@ const Terms = () => {
             <h2 className="text-xl font-medium text-foreground pt-4">2. Check-In & Check-Out</h2>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong className="text-foreground font-medium">Check-In:</strong> 3:00 PM onwards.</li>
+              <li><strong className="text-foreground font-medium">Check-In Method:</strong> <span className="text-destructive font-medium">[CONFIRM WITH CLIENT: Self-service via lockbox OR Meet host in person?]</span></li>
               <li><strong className="text-foreground font-medium">Check-Out:</strong> 12:00 PM (Noon) strictly.</li>
               <li>Early check-in or late check-out is subject to availability and prior approval. Additional charges may apply.</li>
             </ul>
@@ -33,6 +34,7 @@ const Terms = () => {
             <h2 className="text-xl font-medium text-foreground pt-4">3. House Rules</h2>
             <p>To ensure a pleasant stay for everyone, please observe the following rules:</p>
             <ul className="list-disc pl-5 space-y-2">
+              <li><strong className="text-foreground font-medium">Maximum Capacity:</strong> The property accommodates a maximum of 5 guests.</li>
               <li><strong className="text-foreground font-medium">No Smoking:</strong> Smoking is strictly prohibited inside the house. You may smoke in designated outdoor areas only.</li>
               <li><strong className="text-foreground font-medium">No Pets:</strong> Pets are not allowed on the premises.</li>
               <li><strong className="text-foreground font-medium">No Parties/Events:</strong> Quiet hours are from 10:00 PM to 8:00 AM to respect the neighbors.</li>
@@ -40,7 +42,12 @@ const Terms = () => {
               <li><strong className="text-foreground font-medium">Security:</strong> Ensure all doors and gates are securely locked when leaving the property.</li>
             </ul>
 
-            <h2 className="text-xl font-medium text-foreground pt-4">4. Liability</h2>
+            <h2 className="text-xl font-medium text-foreground pt-4">4. Safety Disclosures</h2>
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong className="text-foreground font-medium">Safety Equipment:</strong> <span className="text-destructive font-medium">[CONFIRM WITH CLIENT: Are smoke alarms and carbon monoxide alarms currently installed on the property?]</span></li>
+            </ul>
+
+            <h2 className="text-xl font-medium text-foreground pt-4">5. Liability</h2>
             <p>
               The owner is not responsible for any accidents, injuries, or illnesses that occur while on the premises. The owner is not responsible for the loss of personal belongings or valuables of the guest.
             </p>
