@@ -10,6 +10,7 @@ import { Input } from "./ui/input";
 import { toast } from "sonner";
 import { CalendarDays, ArrowRight, ArrowLeft, CheckCircle, User, Phone, Mail, MapPinned, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -357,7 +358,13 @@ Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
                       />
                     </div>
 
-                    <div className="flex gap-3 pt-4">
+                    <div className="pt-2 pb-1 text-center">
+                      <p className="text-[10px] text-muted-foreground font-light">
+                        By continuing, you agree to our <Link to="/terms" className="underline hover:text-foreground smooth-hover" target="_blank">Terms & Conditions</Link> and <Link to="/privacy" className="underline hover:text-foreground smooth-hover" target="_blank">Privacy Policy</Link>.
+                      </p>
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
                       <Button
                         variant="outline"
                         size="default"

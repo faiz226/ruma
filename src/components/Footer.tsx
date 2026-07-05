@@ -51,6 +51,28 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Legal Row */}
+          <div>
+            <h4 className="text-sm font-medium mb-4">Legal</h4>
+            <ul className="flex flex-col gap-y-3">
+              <li>
+                <Link to="/terms" className="text-background/70 hover:text-background smooth-hover text-xs font-light">
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-background/70 hover:text-background smooth-hover text-xs font-light">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/refund-policy" className="text-background/70 hover:text-background smooth-hover text-xs font-light">
+                  Refund Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact Row */}
           <div>
             <h4 className="text-sm font-medium mb-4">Contact Us</h4>
