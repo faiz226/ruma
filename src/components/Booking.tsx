@@ -52,13 +52,7 @@ const Booking = () => {
         .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT']);
         
       if (data && !error) {
-        const now = new Date();
-        const validBookings = data.filter(b => {
-          if (b.status === 'PENDING_PAYMENT' && b.locked_until) {
-             return new Date(b.locked_until) > now;
-          }
-          return true;
-        });
+        const validBookings = data;
         setBookedDates(validBookings.map(b => ({
           start: new Date(b.check_in + 'T00:00:00'),
           end: new Date(b.check_out + 'T00:00:00')

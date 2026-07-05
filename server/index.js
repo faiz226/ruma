@@ -140,7 +140,7 @@ const logToGoogleSheet = async (booking) => {
   try {
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Sheet1!A:I',
+      range: 'Sheet1!A:J',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [[
@@ -152,7 +152,8 @@ const logToGoogleSheet = async (booking) => {
           booking.check_out.split('T')[0],
           (booking.total_price_cents / 100).toFixed(2),
           booking.status,
-          new Date().toISOString()
+          new Date().toISOString(),
+          booking.notes || ''
         ]]
       }
     });
@@ -172,11 +173,22 @@ const sendConfirmationEmail = async (booking) => {
   try {
     const templatePath = path.join(__dirname, 'emailTemplate.html');
     let html = fs.readFileSync(templatePath, 'utf8');
+    
+    let paymentStatusText = booking.status === 'PENDING_PAYMENT' 
+      ? 'Booking Received – Payment Due on Arrival' 
+      : 'We have successfully received your payment and your booking is confirmed.';
+      
+    let amountLabel = booking.status === 'PENDING_PAYMENT'
+      ? 'Amount Due at Check-in:'
+      : 'Amount Paid:';
+
     html = html.replace(/{{guestName}}/g, booking.guest_name)
       .replace(/{{bookingRef}}/g, booking.booking_ref)
       .replace(/{{checkInDate}}/g, booking.check_in.split('T')[0])
       .replace(/{{checkOutDate}}/g, booking.check_out.split('T')[0])
-      .replace(/{{amountPaid}}/g, (booking.total_price_cents / 100).toFixed(2));
+      .replace(/{{amountPaid}}/g, (booking.total_price_cents / 100).toFixed(2))
+      .replace(/{{paymentStatusText}}/g, paymentStatusText)
+      .replace(/{{amountLabel}}/g, amountLabel);
 
     // TODO: Update 'from' email once custom domain is verified on Resend.
     // Requires adding DNS TXT/MX records in your domain registrar (e.g. GoDaddy/Namecheap).
@@ -260,7 +272,7 @@ app.post('/api/bookings/cancel', apiLimiter, authenticateAdmin, async (req, res)
 // ---------------------------------------------------------
 app.post('/api/admin/bookings/create', apiLimiter, authenticateAdmin, async (req, res) => {
   try {
-    const { roomId, checkIn, checkOut, guestName, guestEmail, guestPhone, guestPostcode } = req.body;
+    const { roomId, checkIn, checkOut, guestName, guestEmail, guestPhone, guestPostcode, status, notes } = req.body;
     // Basic validation
     if (!checkIn || !checkOut || !guestName || !guestEmail) {
       return res.status(400).json({ error: 'Missing required fields' });
@@ -304,7 +316,7 @@ app.post('/api/admin/bookings/create', apiLimiter, authenticateAdmin, async (req
       .eq('room_id', actualRoomId)
       .lt('check_in', checkOut)
       .gt('check_out', checkIn)
-      .in('status', ['PAID', 'confirmed']);
+      .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT']);
 
     if (conflicting && conflicting.length > 0) {
       return res.status(400).json({ error: 'Dates are already booked.' });
@@ -322,7 +334,8 @@ app.post('/api/admin/bookings/create', apiLimiter, authenticateAdmin, async (req
         guest_phone: guestPhone || null,
         guest_postcode: guestPostcode || null,
         total_price_cents: total_price_cents,
-        status: 'PAID',
+        status: status || 'PAID',
+        notes: notes || null,
         locked_until: new Date().toISOString()
       })
       .select()
@@ -350,7 +363,7 @@ app.post('/api/admin/bookings/create', apiLimiter, authenticateAdmin, async (req
 // ---------------------------------------------------------
 app.post('/api/admin/bookings/modify', apiLimiter, authenticateAdmin, async (req, res) => {
   try {
-    const { bookingId, checkIn, checkOut } = req.body;
+    const { bookingId, checkIn, checkOut, status, notes } = req.body;
     if (!bookingId || !checkIn || !checkOut) return res.status(400).json({ error: 'Missing required fields' });
 
     const { data: booking, error: fetchErr } = await supabase
@@ -369,7 +382,7 @@ app.post('/api/admin/bookings/modify', apiLimiter, authenticateAdmin, async (req
       .neq('id', bookingId)
       .lt('check_in', checkOut)
       .gt('check_out', checkIn)
-      .in('status', ['PAID', 'confirmed']);
+      .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT']);
 
     if (conflicting && conflicting.length > 0) {
       return res.status(400).json({ error: 'Dates are already booked by another guest.' });
@@ -396,6 +409,8 @@ app.post('/api/admin/bookings/modify', apiLimiter, authenticateAdmin, async (req
         check_in: checkIn,
         check_out: checkOut,
         total_price_cents: total_price_cents,
+        status: status || booking.status,
+        notes: notes !== undefined ? notes : booking.notes,
         updated_at: new Date().toISOString()
       })
       .eq('id', bookingId)

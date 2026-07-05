@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
-import { Calendar, Users, DollarSign, Mail, Phone, ArrowLeft, LogOut, Eye, CheckCircle, XCircle, Plus, Loader2, Edit3 } from "lucide-react";
+import { Calendar, Users, DollarSign, Mail, Phone, ArrowLeft, LogOut, Eye, CheckCircle, XCircle, Plus, Loader2, Edit3, ArrowUpDown } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -44,13 +44,20 @@ const Admin = () => {
     email: "",
     phone: "",
     checkIn: "",
-    checkOut: ""
+    checkOut: "",
+    status: "PAID",
+    notes: ""
   });
 
   const handleCreateBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newBooking.name || !newBooking.email || !newBooking.checkIn || !newBooking.checkOut) {
       toast.error("Please fill all required fields");
+      return;
+    }
+    
+    if (new Date(newBooking.checkOut) <= new Date(newBooking.checkIn)) {
+      toast.error("Check-out date must be after check-in date (minimum 1 night).");
       return;
     }
     
@@ -70,7 +77,9 @@ const Admin = () => {
           checkOut: newBooking.checkOut,
           guestName: newBooking.name,
           guestEmail: newBooking.email,
-          guestPhone: newBooking.phone
+          guestPhone: newBooking.phone,
+          status: newBooking.status,
+          notes: newBooking.notes
         })
       });
       const data = await response.json();
@@ -79,7 +88,7 @@ const Admin = () => {
       toast.success("Booking created & integrations triggered successfully!");
       setIsCreateOpen(false);
       fetchBookings();
-      setNewBooking({ name: "", email: "", phone: "", checkIn: "", checkOut: "" });
+      setNewBooking({ name: "", email: "", phone: "", checkIn: "", checkOut: "", status: "PAID", notes: "" });
     } catch (err: any) {
       toast.error(err.message || "Failed to create booking");
     } finally {
@@ -88,20 +97,27 @@ const Admin = () => {
   };
 
   const [modifyBookingId, setModifyBookingId] = useState<string | null>(null);
-  const [modifyDates, setModifyDates] = useState({ checkIn: "", checkOut: "" });
+  const [modifyDates, setModifyDates] = useState({ checkIn: "", checkOut: "", status: "PAID", notes: "" });
   const [isModifying, setIsModifying] = useState(false);
 
   const openModifyDialog = (booking: any) => {
     setModifyBookingId(booking.id);
     setModifyDates({
         checkIn: booking.check_in.split('T')[0],
-        checkOut: booking.check_out.split('T')[0]
+        checkOut: booking.check_out.split('T')[0],
+        status: booking.status || "PAID",
+        notes: booking.notes || ""
     });
   };
 
   const handleModifyBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!modifyBookingId || !modifyDates.checkIn || !modifyDates.checkOut) return;
+    
+    if (new Date(modifyDates.checkOut) <= new Date(modifyDates.checkIn)) {
+      toast.error("Check-out date must be after check-in date (minimum 1 night).");
+      return;
+    }
     
     setIsModifying(true);
     try {
@@ -116,7 +132,9 @@ const Admin = () => {
         body: JSON.stringify({
           bookingId: modifyBookingId,
           checkIn: modifyDates.checkIn,
-          checkOut: modifyDates.checkOut
+          checkOut: modifyDates.checkOut,
+          status: modifyDates.status,
+          notes: modifyDates.notes
         })
       });
       const data = await response.json();
@@ -202,7 +220,32 @@ const Admin = () => {
     }
   };
 
-  const filteredBookings = bookings;
+  type SortConfig = { key: 'guest_name' | 'dates' | 'status' | 'booking_ref', direction: 'asc' | 'desc' } | null;
+  const [sortConfig, setSortConfig] = useState<SortConfig>(null);
+
+  const handleSort = (key: 'guest_name' | 'dates' | 'status' | 'booking_ref') => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const filteredBookings = [...bookings].sort((a, b) => {
+    if (!sortConfig) return 0;
+    
+    let aValue = a[sortConfig.key] || a.id;
+    let bValue = b[sortConfig.key] || b.id;
+    
+    if (sortConfig.key === 'dates') {
+      aValue = new Date(a.check_in).getTime();
+      bValue = new Date(b.check_in).getTime();
+    }
+    
+    if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
@@ -319,6 +362,24 @@ const Admin = () => {
                         <Input id="checkOut" type="date" value={newBooking.checkOut} onChange={(e) => setNewBooking({...newBooking, checkOut: e.target.value})} required className="font-light" />
                       </div>
                     </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="status" className="text-xs font-medium uppercase tracking-wider">Payment Status</Label>
+                        <select 
+                          id="status" 
+                          value={newBooking.status} 
+                          onChange={(e) => setNewBooking({...newBooking, status: e.target.value})}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 font-light"
+                        >
+                          <option value="PAID">Paid Already</option>
+                          <option value="PENDING_PAYMENT">Pending (Pay on Arrival)</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="notes" className="text-xs font-medium uppercase tracking-wider">Notes</Label>
+                        <Input id="notes" placeholder="Optional notes" value={newBooking.notes} onChange={(e) => setNewBooking({...newBooking, notes: e.target.value})} className="font-light" />
+                      </div>
+                    </div>
                     <div className="pt-4 flex justify-end">
                       <Button type="submit" disabled={isCreating} className="w-full text-[11px] uppercase tracking-wider font-normal">
                         {isCreating ? (
@@ -391,10 +452,18 @@ const Admin = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="border-border">
-                      <TableHead className="text-[11px] uppercase tracking-wider font-normal">Guest</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider font-normal">Dates</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider font-normal">Status</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider font-normal">Contact</TableHead>
+                      <TableHead className="text-[11px] uppercase tracking-wider font-normal cursor-pointer hover:bg-muted/50" onClick={() => handleSort('guest_name')}>
+                        <div className="flex items-center">Guest <ArrowUpDown className="ml-1 h-3 w-3" /></div>
+                      </TableHead>
+                      <TableHead className="text-[11px] uppercase tracking-wider font-normal cursor-pointer hover:bg-muted/50" onClick={() => handleSort('dates')}>
+                        <div className="flex items-center">Dates <ArrowUpDown className="ml-1 h-3 w-3" /></div>
+                      </TableHead>
+                      <TableHead className="text-[11px] uppercase tracking-wider font-normal cursor-pointer hover:bg-muted/50" onClick={() => handleSort('status')}>
+                        <div className="flex items-center">Status <ArrowUpDown className="ml-1 h-3 w-3" /></div>
+                      </TableHead>
+                      <TableHead className="text-[11px] uppercase tracking-wider font-normal cursor-pointer hover:bg-muted/50" onClick={() => handleSort('booking_ref')}>
+                        <div className="flex items-center">Contact <ArrowUpDown className="ml-1 h-3 w-3" /></div>
+                      </TableHead>
                       <TableHead className="text-[11px] uppercase tracking-wider font-normal text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -503,6 +572,24 @@ const Admin = () => {
               <div className="space-y-2">
                 <Label htmlFor="modCheckOut" className="text-xs font-medium uppercase tracking-wider">New Check Out</Label>
                 <Input id="modCheckOut" type="date" value={modifyDates.checkOut} onChange={(e) => setModifyDates({...modifyDates, checkOut: e.target.value})} required className="font-light" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="modStatus" className="text-xs font-medium uppercase tracking-wider">Payment Status</Label>
+                <select 
+                  id="modStatus" 
+                  value={modifyDates.status} 
+                  onChange={(e) => setModifyDates({...modifyDates, status: e.target.value})}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 font-light"
+                >
+                  <option value="PAID">Paid Already</option>
+                  <option value="PENDING_PAYMENT">Pending (Pay on Arrival)</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="modNotes" className="text-xs font-medium uppercase tracking-wider">Notes</Label>
+                <Input id="modNotes" placeholder="Optional notes" value={modifyDates.notes} onChange={(e) => setModifyDates({...modifyDates, notes: e.target.value})} className="font-light" />
               </div>
             </div>
             <div className="pt-4 flex justify-end">
