@@ -1,0 +1,19 @@
+{
+  "name": "hitpay-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.5.2",
+    "googleapis": "^128.0.0",
+    "node-cron": "^3.0.3",
+    "resend": "^6.17.1"
+  }
+}

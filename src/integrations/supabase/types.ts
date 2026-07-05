@@ -58,7 +58,6 @@ export type Database = {
           guest_name: string
           guest_phone: string | null
           guest_postcode: string | null
-          guests: number
           id: string
           room_id: string
           status: string
@@ -74,7 +73,6 @@ export type Database = {
           guest_name: string
           guest_phone?: string | null
           guest_postcode?: string | null
-          guests: number
           id?: string
           room_id: string
           status?: string
@@ -90,7 +88,6 @@ export type Database = {
           guest_name?: string
           guest_phone?: string | null
           guest_postcode?: string | null
-          guests?: number
           id?: string
           room_id?: string
           status?: string

@@ -71,3 +71,53 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## HitPay Automated Booking System
+
+This project includes a fully automated booking flow using HitPay as the payment gateway. It replaces the old WhatsApp booking flow.
+
+### Backend Setup & Environment Variables
+
+1. Navigate to the `server/` directory and install dependencies:
+   ```bash
+   cd server
+   npm install
+   ```
+
+2. Copy `server/.env.example` to `server/.env` and fill in the required variables:
+   - `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` (must be the service_role key to bypass RLS for backend operations).
+   - `HITPAY_API_KEY` and `HITPAY_SALT` (from your HitPay dashboard).
+   - `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_CALENDAR_ID`, `GOOGLE_SHEET_ID` (for syncing dates and logging).
+
+3. Start the backend server:
+   ```bash
+   npm start
+   ```
+
+### HitPay Dashboard Setup
+
+1. Go to your HitPay Dashboard > Settings > API Keys.
+2. Copy your API Key and Salt into the backend `.env`.
+3. In the HitPay webhook settings, you do **not** need to set a global webhook URL if you don't want to, as the backend dynamically passes the webhook URL (`/api/webhooks/hitpay`) in every payment request.
+4. Ensure your HitPay account has the necessary payment methods enabled (FPX, DuitNow QR, Cards, etc.).
+
+### Switching from Sandbox to Production
+
+When you are ready to take live payments, the client needs to create their own real HitPay account. You will need to change these three environment variables in `server/.env`:
+
+1. `HITPAY_API_URL`: Change this from `https://api.sandbox.hit-pay.com/v1` to `https://api.hit-pay.com/v1`.
+2. `HITPAY_API_KEY`: Replace with the production API Key from their live HitPay dashboard.
+3. `HITPAY_SALT`: Replace with the production Salt from their live HitPay dashboard.
+
+*Nothing else in the codebase is hardcoded to Sandbox. Making these three changes in `.env` is all that's required to go live.*
+
+### Database Migration
+
+To support the booking lock and sequential reference generation, run the SQL migration in your Supabase SQL editor:
+- Copy the contents of `supabase/migrations/01_hitpay_booking.sql`.
+- Run it in your Supabase project's SQL Editor.
+
+### Configuration
+
+- **Soft-lock / Expiry Timing**: By default, the system locks dates for **30 minutes** after a user initiates checkout. You can change this in `server/index.js` by modifying `p_lock_minutes: 30` in the `create_pending_booking` RPC call.
+- **Cron Job**: The backend runs a node-cron job every 5 minutes (`*/5 * * * *`) to sweep and mark bookings as `EXPIRED` if the 30-minute lock has passed without a successful payment. You can adjust this schedule in `server/index.js`.

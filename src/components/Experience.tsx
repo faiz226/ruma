@@ -36,7 +36,7 @@ const Experience = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="experience" className="py-32 lg:py-40 bg-secondary/30" ref={ref}>
+    <section id="experience" className="py-16 lg:py-24 bg-secondary/30" ref={ref}>
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

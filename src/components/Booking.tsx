@@ -1,17 +1,15 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { DateRange } from "react-day-picker";
-import { format } from "date-fns";
+import { format, isWithinInterval } from "date-fns";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Calendar } from "./ui/calendar";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { toast } from "sonner";
-import { CalendarDays, Users, ArrowRight, ArrowLeft, CheckCircle, User, Phone, Mail, MapPinned, CreditCard } from "lucide-react";
+import { CalendarDays, ArrowRight, ArrowLeft, CheckCircle, User, Phone, Mail, MapPinned, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -36,12 +34,55 @@ const Booking = () => {
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(0);
   
-  // Step 1 fields - changed to date range
+  // Step 1 fields
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(),
     to: undefined
   });
-  const [guests, setGuests] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingRef, setBookingRef] = useState("");
+  const [bookedDates, setBookedDates] = useState<{start: Date, end: Date}[]>([]);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('check_in, check_out, status, locked_until')
+        .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT']);
+        
+      if (data && !error) {
+        const now = new Date();
+        const validBookings = data.filter(b => {
+          if (b.status === 'PENDING_PAYMENT' && b.locked_until) {
+             return new Date(b.locked_until) > now;
+          }
+          return true;
+        });
+        setBookedDates(validBookings.map(b => ({
+          start: new Date(b.check_in),
+          end: new Date(b.check_out)
+        })));
+      }
+    };
+    fetchBookings();
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('status') === 'failed' || params.get('status') === 'canceled') {
+      toast.error("Payment failed or was cancelled. Please try again.");
+      setBookingRef(params.get('ref') || "");
+      // Remove query params from URL without refreshing
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (params.has('ref')) {
+      setBookingRef(params.get('ref') || "");
+      setStep(3);
+      setTimeout(() => {
+        document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
   
   // Step 2 fields
   const [name, setName] = useState("");
@@ -50,7 +91,7 @@ const Booking = () => {
   const [postcode, setPostcode] = useState("");
 
   const handleStep1Continue = () => {
-    if (!dateRange?.from || !dateRange?.to || !guests) {
+    if (!dateRange?.from || !dateRange?.to) {
       toast.error("Please fill in all fields including check-in and check-out dates");
       return;
     }
@@ -63,7 +104,7 @@ const Booking = () => {
     setStep(1);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!name || !phone || !email || !postcode) {
       toast.error("Please fill in all contact details");
       return;
@@ -75,21 +116,39 @@ const Booking = () => {
       return;
     }
     
-    setDirection(1);
-    setStep(3);
+    setIsSubmitting(true);
+    
+    // Construct WhatsApp message
+    const message = `NAME: ${name}
+Email: ${email}
+Phone: ${phone}
+Check in: ${dateRange?.from ? format(dateRange.from, "dd-MM-yyyy") : ''}
+Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/60148537905?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+    
+    setTimeout(() => {
+      setIsSubmitting(false);
+      // Optional: Move to step 3 or just leave them on the form
+      // setStep(3);
+    }, 1000);
   };
 
   const handleReset = () => {
     setDirection(-1);
     setStep(1);
     setDateRange({ from: new Date(), to: undefined });
-    setGuests("");
     setName("");
     setPhone("");
     setEmail("");
     setPostcode("");
   };
 
+  // Pricing is calculated dynamically by day-of-week (client-side here, and verified server-side).
+  // The 'base_price_cents' column in the database is completely unused for actual charges.
   const calculatePrice = () => {
     if (!dateRange?.from || !dateRange?.to) return 0;
     
@@ -117,8 +176,16 @@ const Booking = () => {
     return `${format(dateRange.from, "MMM d")} - ${format(dateRange.to, "MMM d, yyyy")}`;
   };
 
+  const isDateDisabled = (date: Date) => {
+    if (date < new Date(new Date().setHours(0, 0, 0, 0))) return true;
+    
+    return bookedDates.some(booking => {
+      return isWithinInterval(date, { start: booking.start, end: booking.end });
+    });
+  };
+
   return (
-    <section id="booking" className="py-32 lg:py-40 bg-accent/20" ref={ref}>
+    <section id="booking" className="py-16 lg:py-24 bg-accent/20" ref={ref}>
       <div className="container mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -179,25 +246,6 @@ const Booking = () => {
                         </div>
                       </div>
 
-                      <div>
-                        <Label htmlFor="guests" className="flex items-center gap-1.5 mb-3 text-card-foreground text-[11px] uppercase tracking-wider font-normal">
-                          <Users className="h-3 w-3" />
-                          Guests
-                        </Label>
-                        <Select value={guests} onValueChange={setGuests}>
-                          <SelectTrigger id="guests" className="rounded-md text-sm font-light">
-                            <SelectValue placeholder="Select guests" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="1">1 Guest</SelectItem>
-                            <SelectItem value="2">2 Guests</SelectItem>
-                            <SelectItem value="3">3 Guests</SelectItem>
-                            <SelectItem value="4">4 Guests</SelectItem>
-                            <SelectItem value="5">5+ Guests</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
                       <div className="pt-4">
                         <Button
                           size="default"
@@ -221,7 +269,7 @@ const Booking = () => {
                         onSelect={setDateRange}
                         numberOfMonths={1}
                         className="rounded-md border-border shadow-soft text-sm pointer-events-auto"
-                        disabled={(date) => date < new Date()}
+                        disabled={isDateDisabled}
                       />
                       {dateRange?.from && dateRange?.to && (
                         <div className="mt-4 p-3 bg-primary/10 rounded-md text-center">
@@ -321,10 +369,18 @@ const Booking = () => {
                       </Button>
                       <Button
                         size="default"
+                        disabled={isSubmitting}
                         className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md smooth-hover text-[11px] uppercase tracking-wider font-normal"
                         onClick={handleSubmit}
                       >
-                        Submit Booking
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Opening WhatsApp...
+                          </>
+                        ) : (
+                          "Send via WhatsApp"
+                        )}
                       </Button>
                     </div>
                   </div>
@@ -362,13 +418,13 @@ const Booking = () => {
                       <div className="text-sm font-light text-foreground space-y-1">
                         <p><span className="text-muted-foreground">Property:</span> RUMA by EL Stay Treat</p>
                         <p><span className="text-muted-foreground">Dates:</span> {formatDateRange()}</p>
-                        <p><span className="text-muted-foreground">Guests:</span> {guests}</p>
                         <p className="font-medium text-primary mt-2 pt-2 border-t border-border"><span className="text-muted-foreground">Total Price:</span> RM{calculatePrice()}</p>
+                        {bookingRef && <p><span className="text-muted-foreground">Reference:</span> {bookingRef}</p>}
                       </div>
                     </div>
 
                     <p className="text-xs text-muted-foreground font-light">
-                      A confirmation email will be sent to {email}
+                      A confirmation email has been sent to your address.
                     </p>
 
                     <Button

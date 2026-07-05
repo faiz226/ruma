@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Booking Confirmation - RUMA Homestay</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f6f6f6; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 1px solid #e5e5e5; padding-bottom: 15px; margin-bottom: 20px; }
+        .header h1 { font-weight: 300; color: #333; }
+        .content { color: #555; line-height: 1.6; }
+        .summary { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .summary p { margin: 5px 0; font-size: 14px; }
+        .summary span.label { font-weight: bold; color: #333; display: inline-block; width: 120px; }
+        .footer { text-align: center; font-size: 12px; color: #aaa; border-top: 1px solid #e5e5e5; padding-top: 15px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Booking Confirmed</h1>
+        </div>
+        <div class="content">
+            <p>Dear {{guestName}},</p>
+            <p>Thank you for choosing <strong>RUMA by EL Stay Treat</strong>. We have successfully received your payment and your booking is confirmed.</p>
+            
+            <div class="summary">
+                <p><span class="label">Booking Ref:</span> {{bookingRef}}</p>
+                <p><span class="label">Property:</span> RUMA by EL Stay Treat</p>
+                <p><span class="label">Check-in:</span> {{checkInDate}} (3:00 PM)</p>
+                <p><span class="label">Check-out:</span> {{checkOutDate}} (12:00 PM)</p>
+                <p><span class="label">Amount Paid:</span> RM {{amountPaid}}</p>
+            </div>
+            
+            <p>We're looking forward to hosting you! If you have any questions or need to make changes to your reservation, please reply to this email or contact us via WhatsApp.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 RUMA by EL Stay Treat. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

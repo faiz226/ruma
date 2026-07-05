@@ -23,7 +23,6 @@ const LocationDetail = () => {
     from: new Date(),
     to: undefined
   });
-  const [guests, setGuests] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const { scrollY } = useScroll();
@@ -46,8 +45,8 @@ const LocationDetail = () => {
   const allImages = [location.image, ...location.images];
 
   const handleBooking = () => {
-    if (!dateRange?.from || !dateRange?.to || !guests) {
-      toast.error("Please select check-in, check-out dates and number of guests");
+    if (!dateRange?.from || !dateRange?.to) {
+      toast.error("Please select check-in and check-out dates");
       return;
     }
     toast.success(`Booking request for ${location.name} submitted!`);
@@ -291,59 +290,38 @@ const LocationDetail = () => {
                       <span className="font-light">{location.rating}</span>
                     </div>
                   </div>
-
-                  <div className="space-y-6">
-                    <div>
-                      <Label htmlFor="detail-guests" className="text-[11px] uppercase tracking-wider font-normal mb-3 block">
-                        Guests
-                      </Label>
-                      <Select value={guests} onValueChange={setGuests}>
-                        <SelectTrigger id="detail-guests" className="rounded-md text-sm font-light">
-                          <SelectValue placeholder="Select guests" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1">1 Guest</SelectItem>
-                          <SelectItem value="2">2 Guests</SelectItem>
-                          <SelectItem value="3">3 Guests</SelectItem>
-                          <SelectItem value="4">4 Guests</SelectItem>
-                          <SelectItem value="5">5+ Guests</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label className="text-[11px] uppercase tracking-wider font-normal mb-3 block">
-                        Check-in & Check-out
-                      </Label>
-                      <CalendarComponent
-                        mode="range"
-                        selected={dateRange}
-                        onSelect={setDateRange}
-                        numberOfMonths={1}
-                        className="rounded-md border-border text-sm pointer-events-auto"
-                        disabled={(date) => date < new Date()}
-                      />
-                      {dateRange?.from && (
-                        <p className="text-xs text-muted-foreground font-light mt-2 text-center">
-                          {formatDateRange()}
-                          {dateRange?.to && (
-                            <span className="block">
-                              {Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24))} nights
-                            </span>
-                          )}
-                        </p>
-                      )}
-                    </div>
-
-                    <Button
-                      size="default"
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-md smooth-hover text-[11px] uppercase tracking-wider font-normal"
-                      onClick={() => navigate("/#booking")}
-                    >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      Book Homestay
-                    </Button>
+                  <div className="space-y-4">
+                    <Label className="text-[11px] uppercase tracking-wider font-normal mb-3 block">
+                      Check-in & Check-out
+                    </Label>
+                    <CalendarComponent
+                      mode="range"
+                      selected={dateRange}
+                      onSelect={setDateRange}
+                      numberOfMonths={1}
+                      className="rounded-md border-border text-sm pointer-events-auto"
+                      disabled={(date) => date < new Date()}
+                    />
+                    {dateRange?.from && (
+                      <p className="text-xs text-muted-foreground font-light mt-2 text-center">
+                        {formatDateRange()}
+                        {dateRange?.to && (
+                          <span className="block">
+                            {Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24))} nights
+                          </span>
+                        )}
+                      </p>
+                    )}
                   </div>
+
+                  <Button
+                    size="default"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-md smooth-hover text-[11px] uppercase tracking-wider font-normal mt-6"
+                    onClick={() => navigate("/#booking")}
+                  >
+                    <Calendar className="mr-2 h-4 w-4" />
+                    Book Homestay
+                  </Button>
                 </Card>
               </motion.div>
             </div>

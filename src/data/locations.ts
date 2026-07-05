@@ -35,118 +35,31 @@ export interface Location {
 
 export const locations: Location[] = [
   {
-    id: "master-bedroom",
-    name: "Master Bedroom",
-    location: "RUMA by EL Stay Treat",
-    description: "Spacious master bedroom designed for ultimate comfort.",
+    id: "ruma-homestay",
+    name: "RUMA Homestay",
+    location: "Rivervale, KotaSAS",
+    description: "A beautiful, fully-furnished 3-bedroom homestay perfect for families and group gatherings.",
     rating: 5.0,
-    price: 0,
+    price: 240, // Weekday price, weekend is 270
     image: masterBed,
-    images: [masterBed, secondMaster],
-    features: ["Queen Bed", "Air-Conditioned", "Wardrobe Rail", "Attached Toilet"],
+    images: [masterBed, secondMaster, room1, livingRoom, kitchen, hall],
+    features: ["3 Bedrooms", "Air-Conditioned", "Smart TV & Netflix", "Free WiFi", "Washing Machine"],
     featured: true,
     amenities: [
-      { icon: Bed, label: "Queen Bed", description: "Comfortable queen-sized bed" },
-      { icon: Wind, label: "Air-Cond", description: "Fully air-conditioned room" },
-      { icon: Bath, label: "Water Heater", description: "Attached toilet with water heater" },
+      { icon: Bed, label: "Bedrooms", description: "2 Queen beds, 1 Single bed" },
+      { icon: Wind, label: "Air-Cond", description: "Fully air-conditioned house" },
+      { icon: Tv, label: "Entertainment", description: "Smart TV with Netflix & Free WiFi" },
+      { icon: Utensils, label: "Kitchen", description: "Fully equipped with microwave & stove" },
+      { icon: Bath, label: "Bathrooms", description: "Water heaters provided" },
+      { icon: Car, label: "Parking", description: "Free parking space available" }
     ],
     details: [
-      "Queen size bed",
-      "Air conditioning",
-      "Wardrobe rail for clothing",
-      "Attached toilet",
-      "Fresh linens and towels provided"
-    ],
-    reviews: []
-  },
-  {
-    id: "second-master",
-    name: "Second Master Bedroom",
-    location: "RUMA by EL Stay Treat",
-    description: "Comfortable second master bedroom perfect for couples.",
-    rating: 5.0,
-    price: 0,
-    image: secondMaster,
-    images: [secondMaster, masterBed],
-    features: ["Queen Bed", "Air-Conditioned"],
-    featured: true,
-    amenities: [
-      { icon: Bed, label: "Queen Bed", description: "Comfortable queen-sized bed" },
-      { icon: Wind, label: "Air-Cond", description: "Fully air-conditioned room" }
-    ],
-    details: [
-      "Queen size bed",
-      "Air conditioning",
-      "Fresh linens and towels provided"
-    ],
-    reviews: []
-  },
-  {
-    id: "single-bedroom",
-    name: "Single Bedroom / Prayer Room",
-    location: "RUMA by EL Stay Treat",
-    description: "Cozy single bedroom that can also be used as a prayer room.",
-    rating: 5.0,
-    price: 0,
-    image: room1,
-    images: [room1],
-    features: ["Single Bed", "Air-Conditioned", "Mirror"],
-    featured: true,
-    amenities: [
-      { icon: Bed, label: "Single Bed", description: "Comfortable single bed" },
-      { icon: Wind, label: "Air-Cond", description: "Fully air-conditioned room" }
-    ],
-    details: [
-      "Single size bed",
-      "Air conditioning",
-      "Full-length mirror",
-      "Can serve as a prayer room"
-    ],
-    reviews: []
-  },
-  {
-    id: "living-room",
-    name: "Living Room",
-    location: "RUMA by EL Stay Treat",
-    description: "Relaxing living area for family gatherings and entertainment.",
-    rating: 5.0,
-    price: 0,
-    image: livingRoom,
-    images: [livingRoom, hall],
-    features: ["Sofa Seating", "Smart TV", "Netflix", "Free WiFi"],
-    featured: true,
-    amenities: [
-      { icon: Tv, label: "Entertainment", description: "TV area with Netflix" },
-      { icon: Wind, label: "Comfort", description: "Cozy rug and sofa seating" }
-    ],
-    details: [
-      "Comfortable sofa seating",
-      "Cozy rug area",
-      "TV area with Netflix",
-      "High-speed Free WiFi"
-    ],
-    reviews: []
-  },
-  {
-    id: "kitchen",
-    name: "Kitchen",
-    location: "RUMA by EL Stay Treat",
-    description: "Fully equipped kitchen for all your cooking needs.",
-    rating: 5.0,
-    price: 0,
-    image: kitchen,
-    images: [kitchen],
-    features: ["Fully Equipped", "Stove", "Microwave", "Washing Machine"],
-    featured: true,
-    amenities: [
-      { icon: Utensils, label: "Cooking", description: "Basic cooking essentials provided" },
-      { icon: Wind, label: "Appliances", description: "Iron, kettle, cooker, microwave & washing machine" }
-    ],
-    details: [
-      "Stove and sink",
-      "Microwave oven",
-      "Kitchen cabinets",
-      "Basic cooking essentials",
+      "Master bedroom with Queen bed & attached toilet",
+      "Second bedroom with Queen bed",
+      "Third bedroom with Single bed (can serve as prayer room)",
+      "Comfortable living room with Netflix",
+      "High-speed Free WiFi",
+      "Fully equipped kitchen",
       "Washing machine provided"
     ],
     reviews: []

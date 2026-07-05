@@ -38,8 +38,8 @@ const Navigation = ({
   };
   const navItems = [{
     label: "Rooms & Spaces",
-    href: "/locations",
-    isRoute: true
+    href: "/#locations",
+    isRoute: false
   }, {
     label: "About",
     href: "/about",

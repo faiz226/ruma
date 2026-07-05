@@ -6,7 +6,6 @@ export interface Booking {
   phone: string;
   checkIn: Date;
   checkOut: Date;
-  guests: number;
   status: 'confirmed' | 'pending' | 'cancelled';
   createdAt: Date;
 }
@@ -21,7 +20,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900001",
     checkIn: new Date("2026-01-20"),
     checkOut: new Date("2026-01-25"),
-    guests: 2,
+
     status: "confirmed",
     createdAt: new Date("2026-01-10"),
   },
@@ -33,7 +32,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900002",
     checkIn: new Date("2026-01-22"),
     checkOut: new Date("2026-01-24"),
-    guests: 4,
+
     status: "pending",
     createdAt: new Date("2026-01-12"),
   },
@@ -45,7 +44,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900003",
     checkIn: new Date("2026-01-18"),
     checkOut: new Date("2026-01-21"),
-    guests: 3,
+
     status: "confirmed",
     createdAt: new Date("2026-01-08"),
   },
@@ -57,7 +56,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900004",
     checkIn: new Date("2026-01-25"),
     checkOut: new Date("2026-01-28"),
-    guests: 2,
+
     status: "confirmed",
     createdAt: new Date("2026-01-14"),
   },
@@ -69,7 +68,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900005",
     checkIn: new Date("2026-02-01"),
     checkOut: new Date("2026-02-05"),
-    guests: 5,
+
     status: "pending",
     createdAt: new Date("2026-01-13"),
   },
@@ -81,7 +80,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900006",
     checkIn: new Date("2026-02-10"),
     checkOut: new Date("2026-02-14"),
-    guests: 2,
+
     status: "confirmed",
     createdAt: new Date("2026-01-15"),
   },
@@ -93,7 +92,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900007",
     checkIn: new Date("2026-01-28"),
     checkOut: new Date("2026-01-30"),
-    guests: 4,
+
     status: "cancelled",
     createdAt: new Date("2026-01-05"),
   },
@@ -105,7 +104,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900008",
     checkIn: new Date("2026-02-15"),
     checkOut: new Date("2026-02-20"),
-    guests: 3,
+
     status: "confirmed",
     createdAt: new Date("2026-01-14"),
   },
@@ -117,7 +116,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900009",
     checkIn: new Date("2026-01-30"),
     checkOut: new Date("2026-02-02"),
-    guests: 2,
+
     status: "pending",
     createdAt: new Date("2026-01-12"),
   },
@@ -129,7 +128,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900010",
     checkIn: new Date("2026-02-05"),
     checkOut: new Date("2026-02-08"),
-    guests: 4,
+
     status: "confirmed",
     createdAt: new Date("2026-01-11"),
   },
@@ -141,7 +140,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900011",
     checkIn: new Date("2026-02-12"),
     checkOut: new Date("2026-02-16"),
-    guests: 6,
+
     status: "confirmed",
     createdAt: new Date("2026-01-10"),
   },
@@ -153,7 +152,7 @@ export const mockBookings: Booking[] = [
     phone: "+44 7700 900012",
     checkIn: new Date("2026-02-20"),
     checkOut: new Date("2026-02-24"),
-    guests: 2,
+
     status: "pending",
     createdAt: new Date("2026-01-13"),
   },
