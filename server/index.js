@@ -140,7 +140,7 @@ const logToGoogleSheet = async (booking) => {
   try {
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Sheet1!A:H',
+      range: 'Sheet1!A:I',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [[
@@ -151,6 +151,7 @@ const logToGoogleSheet = async (booking) => {
           booking.check_in.split('T')[0],
           booking.check_out.split('T')[0],
           (booking.total_price_cents / 100).toFixed(2),
+          booking.status,
           new Date().toISOString()
         ]]
       }
