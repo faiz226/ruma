@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Tent, ArrowLeft } from "lucide-react";
+import { Home, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -117,9 +117,9 @@ const Auth = () => {
       >
         <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <Tent className="h-5 w-5 text-primary" />
+            <Home className="h-5 w-5 text-primary" />
             <span className="text-sm font-normal tracking-wide text-background">
-              Wild Haven
+              RUMA by EL Stay Treat
             </span>
           </div>
           <h1 className="text-2xl font-light text-background mb-2 tracking-tight">
@@ -142,7 +142,7 @@ const Auth = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@wildhaven.com"
+              placeholder="admin@ruma-elstay.com"
               className="bg-background/10 border-background/20 text-background placeholder:text-background/30 focus-visible:ring-primary"
               required
             />
@@ -182,13 +182,6 @@ const Auth = () => {
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-4">
-          <Button
-            variant="default"
-            onClick={() => navigate("/admin?demo=true")}
-            className="w-full rounded-full text-[11px] uppercase tracking-wider font-normal"
-          >
-            Try Demo Mode
-          </Button>
           <button
             onClick={() => navigate("/")}
             className="text-xs text-background/40 hover:text-background/60 font-light transition-colors flex items-center gap-1"
