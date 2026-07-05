@@ -37,6 +37,9 @@ const Admin = () => {
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  type SortConfig = { key: 'guest_name' | 'dates' | 'status' | 'booking_ref', direction: 'asc' | 'desc' } | null;
+  const [sortConfig, setSortConfig] = useState<SortConfig>(null);
+
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [newBooking, setNewBooking] = useState({
@@ -219,9 +222,6 @@ const Admin = () => {
         toast.error("Server error during cancellation");
     }
   };
-
-  type SortConfig = { key: 'guest_name' | 'dates' | 'status' | 'booking_ref', direction: 'asc' | 'desc' } | null;
-  const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
   const handleSort = (key: 'guest_name' | 'dates' | 'status' | 'booking_ref') => {
     let direction: 'asc' | 'desc' = 'asc';
