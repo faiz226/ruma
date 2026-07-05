@@ -89,14 +89,16 @@ const Footer = () => {
 
             <h4 className="text-sm font-medium mb-4">Follow Us</h4>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-background/70 hover:text-background smooth-hover">
+              <a href="#" className="text-background/70 hover:text-background smooth-hover" aria-label="Instagram">
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href="#" className="text-background/70 hover:text-background smooth-hover">
+              <a href="#" className="text-background/70 hover:text-background smooth-hover" aria-label="Facebook">
                 <Facebook className="h-4 w-4" />
               </a>
-              <a href="#" className="text-background/70 hover:text-background smooth-hover">
-                <Twitter className="h-4 w-4" />
+              <a href="https://www.tiktok.com/@ruma.homestaykotasas" target="_blank" rel="noopener noreferrer" className="text-background/70 hover:text-background smooth-hover" aria-label="TikTok">
+                <svg viewBox="0 0 448 512" fill="currentColor" className="h-4 w-4">
+                  <path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31v89.89a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.17h0A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14Z"/>
+                </svg>
               </a>
             </div>
           </div>
