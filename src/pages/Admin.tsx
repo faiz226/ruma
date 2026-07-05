@@ -517,7 +517,7 @@ const Admin = () => {
                               </TableCell>
                               <TableCell className="text-right">
                                 <div className="flex justify-end gap-2">
-                                  {(booking.status === 'PAID' || booking.status === 'confirmed') && (
+                                  {(booking.status === 'PAID' || booking.status === 'confirmed' || booking.status === 'PENDING_PAYMENT') && (
                                     <>
                                       <Button 
                                         size="sm" 
