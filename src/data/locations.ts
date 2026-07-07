@@ -47,7 +47,7 @@ export const locations: Location[] = [
     description: "A beautiful, fully-furnished 3-bedroom homestay perfect for families and group gatherings.",
     rating: 5.0,
     price: 240, // Weekday price, weekend is 270
-    image: img2,
+    image: img9,
     images: [img2, img1, img7, img9, img3, img10, img11, img12, img8, img5, img6, img4],
     features: ["3 Bedrooms", "Air-Conditioned", "Smart TV & Netflix", "Free WiFi", "Washing Machine"],
     featured: true,
