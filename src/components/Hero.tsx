@@ -9,12 +9,12 @@ import slide5 from "@/images/dining_area.webp"; // 12
 import slide6 from "@/images/master_bedroom_1.webp"; // 9
 
 const slides = [
-  { image: slide1, alt: "RUMA by EL Stay Treat 1" },
-  { image: slide2, alt: "RUMA by EL Stay Treat 2" },
-  { image: slide3, alt: "RUMA by EL Stay Treat 3" },
-  { image: slide4, alt: "RUMA by EL Stay Treat 4" },
-  { image: slide5, alt: "RUMA by EL Stay Treat 5" },
-  { image: slide6, alt: "RUMA by EL Stay Treat 6" },
+  { image: slide1, alt: "RUMA by EL Stay Treat 1", mobileClass: "object-[60%_center] md:object-center" },
+  { image: slide2, alt: "RUMA by EL Stay Treat 2", mobileClass: "object-[30%_center] md:object-center" },
+  { image: slide3, alt: "RUMA by EL Stay Treat 3", mobileClass: "object-[60%_center] md:object-center" },
+  { image: slide4, alt: "RUMA by EL Stay Treat 4", mobileClass: "object-[30%_center] md:object-center" },
+  { image: slide5, alt: "RUMA by EL Stay Treat 5", mobileClass: "object-[center_85%] md:object-center" },
+  { image: slide6, alt: "RUMA by EL Stay Treat 6", mobileClass: "object-center" },
 ];
 
 const SLIDE_DURATION = 5000;
@@ -48,7 +48,7 @@ const Hero = () => {
   }, [nextSlide]);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-[85vh] min-h-[600px] md:h-screen w-full overflow-hidden">
       {/* Image Ticker */}
       <AnimatePresence mode="popLayout">
         <motion.div
@@ -62,7 +62,7 @@ const Hero = () => {
           <img
             src={slides[currentSlide].image}
             alt={slides[currentSlide].alt}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-all duration-700 ${slides[currentSlide].mobileClass}`}
           />
           <div className="absolute inset-0 bg-black/30" />
         </motion.div>
