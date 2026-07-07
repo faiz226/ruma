@@ -36,6 +36,9 @@ const Admin = () => {
   const { user, loading, signOut } = useAuth();
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const ADMIN_ALLOWLIST = ['busycutiekitty@gmail.com', 'puteriaura04@gmail.com'];
+  const isAuthorized = user?.email && ADMIN_ALLOWLIST.includes(user.email);
 
   type SortConfig = { key: 'guest_name' | 'dates' | 'status' | 'booking_ref', direction: 'asc' | 'desc' } | null;
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
@@ -179,15 +182,28 @@ const Admin = () => {
   useEffect(() => {
     if (!loading && !user) {
       navigate("/auth");
-    } else if (user) {
+    } else if (user && isAuthorized) {
       fetchBookings();
     }
-  }, [loading, user, navigate]);
+  }, [loading, user, isAuthorized, navigate]);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="text-sm text-muted-foreground font-light">Loading...</p>
+      </div>
+    );
+  }
+
+  if (user && !isAuthorized) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-light mb-4 text-destructive">Unauthorized Access</h2>
+        <p className="text-muted-foreground mb-6 font-light">You are not authorized to access this dashboard.</p>
+        <Button onClick={signOut} variant="outline" className="text-[11px] uppercase tracking-wider font-normal">
+          <LogOut className="mr-2 h-3 w-3" />
+          Sign Out
+        </Button>
       </div>
     );
   }

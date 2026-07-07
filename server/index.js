@@ -33,6 +33,8 @@ const apiLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+const ADMIN_ALLOWLIST = ['busycutiekitty@gmail.com', 'puteriaura04@gmail.com'];
+
 // Middleware for Admin Auth
 const authenticateAdmin = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -44,6 +46,10 @@ const authenticateAdmin = async (req, res, next) => {
   const { data: { user }, error } = await supabase.auth.getUser(token);
   if (error || !user) {
     return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+  }
+
+  if (!user.email || !ADMIN_ALLOWLIST.includes(user.email)) {
+    return res.status(403).json({ error: 'Forbidden: You are not authorized to access this API' });
   }
 
   req.user = user;

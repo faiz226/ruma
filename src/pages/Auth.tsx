@@ -15,7 +15,6 @@ const loginSchema = z.object({
 });
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -56,45 +55,15 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-          toast({
-            title: "Login Failed",
-            description: error.message === "Invalid login credentials" 
-              ? "Invalid email or password. Please try again." 
-              : error.message,
-            variant: "destructive",
-          });
-        }
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/admin`,
-          },
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        toast({
+          title: "Login Failed",
+          description: error.message === "Invalid login credentials" 
+            ? "Invalid email or password. Please try again." 
+            : error.message,
+          variant: "destructive",
         });
-        if (error) {
-          if (error.message.includes("already registered")) {
-            toast({
-              title: "Account Exists",
-              description: "This email is already registered. Please log in instead.",
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "Sign Up Failed",
-              description: error.message,
-              variant: "destructive",
-            });
-          }
-        } else {
-          toast({
-            title: "Check Your Email",
-            description: "We've sent you a confirmation link. Please verify your email to continue.",
-          });
-        }
       }
     } catch {
       toast({
@@ -123,12 +92,10 @@ const Auth = () => {
             </span>
           </div>
           <h1 className="text-2xl font-light text-background mb-2 tracking-tight">
-            {isLogin ? "Admin Login" : "Create Account"}
+            Admin Login
           </h1>
           <p className="text-xs text-background/60 font-light">
-            {isLogin
-              ? "Sign in to manage your properties"
-              : "Register for admin access"}
+            Sign in to manage your properties
           </p>
         </div>
 
@@ -168,18 +135,9 @@ const Auth = () => {
             disabled={loading}
             className="w-full rounded-full text-[11px] uppercase tracking-wider font-normal"
           >
-            {loading ? "Please wait..." : isLogin ? "Sign In" : "Create Account"}
+            {loading ? "Please wait..." : "Sign In"}
           </Button>
         </form>
-
-        <div className="mt-8 text-center">
-          <button
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-xs text-background/50 hover:text-background/80 font-light transition-colors"
-          >
-            {isLogin ? "Need an account? Sign up" : "Already have an account? Sign in"}
-          </button>
-        </div>
 
         <div className="mt-6 flex flex-col items-center gap-4">
           <button
