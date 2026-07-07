@@ -1,16 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Home } from "lucide-react";
-import slide1 from "@/images/exterior.webp";
-import slide2 from "@/images/living_room.webp";
-import slide3 from "@/images/master_bedroom_1.webp";
-import slide4 from "@/images/kitchen.webp";
+import slide1 from "@/images/living_room.webp"; // 1
+import slide2 from "@/images/hallway_art.webp"; // 6
+import slide3 from "@/images/kitchen.webp"; // 8
+import slide4 from "@/images/living_room_seating.webp"; // 7
+import slide5 from "@/images/dining_area.webp"; // 12
+import slide6 from "@/images/master_bedroom_1.webp"; // 9
 
 const slides = [
   { image: slide1, alt: "RUMA by EL Stay Treat 1" },
   { image: slide2, alt: "RUMA by EL Stay Treat 2" },
   { image: slide3, alt: "RUMA by EL Stay Treat 3" },
   { image: slide4, alt: "RUMA by EL Stay Treat 4" },
+  { image: slide5, alt: "RUMA by EL Stay Treat 5" },
+  { image: slide6, alt: "RUMA by EL Stay Treat 6" },
 ];
 
 const SLIDE_DURATION = 5000;
