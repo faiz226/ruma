@@ -1,10 +1,16 @@
 import { Bed, Bath, Wind, Tv, Utensils, Car } from "lucide-react";
-import masterBed from "@/images/Master Bedroom.jpeg";
-import secondMaster from "@/images/Another master bedroom.jpeg";
-import room1 from "@/images/Room 1.jpeg";
-import livingRoom from "@/images/Living room.jpeg";
-import kitchen from "@/images/Kitchen Island.jpeg";
-import hall from "@/images/Hall.jpeg";
+import img1 from "@/images/living_room.webp"; // 1
+import img2 from "@/images/exterior.webp"; // 2
+import img3 from "@/images/second_bedroom.webp"; // 3 (Master Bedroom alternate)
+import img4 from "@/images/gate.webp"; // 4
+import img5 from "@/images/hallway.webp"; // 5 (Kitchen/Dining)
+import img6 from "@/images/hallway_art.webp"; // 6 (Hallway art)
+import img7 from "@/images/living_room_seating.webp"; // 7 (Living Room)
+import img8 from "@/images/kitchen.webp"; // 8 (Kitchen/Dining)
+import img9 from "@/images/master_bedroom_1.webp"; // 9 (Master Bedroom)
+import img10 from "@/images/master_bedroom_2.webp"; // 10 (Second Master Bedroom)
+import img11 from "@/images/single_bedroom.webp"; // 11 (Third Room)
+import img12 from "@/images/dining_area.webp"; // 12 (Kitchen/Dining)
 
 export interface Review {
   author: string;
@@ -41,8 +47,8 @@ export const locations: Location[] = [
     description: "A beautiful, fully-furnished 3-bedroom homestay perfect for families and group gatherings.",
     rating: 5.0,
     price: 240, // Weekday price, weekend is 270
-    image: masterBed,
-    images: [masterBed, secondMaster, room1, livingRoom, kitchen, hall],
+    image: img2,
+    images: [img2, img1, img7, img9, img3, img10, img11, img12, img8, img5, img6, img4],
     features: ["3 Bedrooms", "Air-Conditioned", "Smart TV & Netflix", "Free WiFi", "Washing Machine"],
     featured: true,
     amenities: [

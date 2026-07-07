@@ -16,18 +16,19 @@ const Locations = () => {
   const featuredLocation = getFeaturedLocations()[0];
 
   const gallerySpaces = [
-    { id: 'master-bedroom', name: 'Master Bedroom', image: featuredLocation.images[0] },
-    { id: 'second-master', name: 'Second Master Bedroom', image: featuredLocation.images[1] },
-    { id: 'single-bedroom', name: 'Single Bedroom / Prayer Room', image: featuredLocation.images[2] },
-    { id: 'living-room', name: 'Living Room', image: featuredLocation.images[3] },
-    { id: 'kitchen', name: 'Kitchen', image: featuredLocation.images[4] }
+    { id: 'ext', name: 'Exterior / Front Porch', image: featuredLocation.images[0] }, // img2
+    { id: 'lr1', name: 'Living Room', image: featuredLocation.images[1] }, // img1
+    { id: 'lr2', name: 'Living Room Space', image: featuredLocation.images[2] }, // img7
+    { id: 'mb1', name: 'Master Bedroom', image: featuredLocation.images[3] }, // img9
+    { id: 'mb2', name: 'Master Bedroom (Alternate)', image: featuredLocation.images[4] }, // img3
+    { id: 'smb', name: 'Second Master Bedroom', image: featuredLocation.images[5] }, // img10
+    { id: 'tr', name: 'Third Room', image: featuredLocation.images[6] }, // img11
+    { id: 'k1', name: 'Kitchen & Dining', image: featuredLocation.images[7] }, // img12
+    { id: 'k2', name: 'Kitchen Island', image: featuredLocation.images[8] }, // img8
+    { id: 'k3', name: 'Dining Space', image: featuredLocation.images[9] }, // img5
+    { id: 'art', name: 'Hallway Art', image: featuredLocation.images[10] }, // img6
+    { id: 'gate', name: 'Gate Pillar', image: featuredLocation.images[11] } // img4
   ];
-
-  const getCardStyle = (index: number) => {
-    const baseRotation = [-8, -4, 0, 4, 8];
-    const baseX = [-300, -150, 0, 150, 300];
-    return { rotate: baseRotation[index], x: baseX[index] };
-  };
 
   const renderMainCard = () => (
     <Card className="overflow-hidden border border-border bg-card shadow-lg max-w-4xl mx-auto w-full">
@@ -114,40 +115,21 @@ const Locations = () => {
           </h3>
         </motion.div>
 
-        {isMobile ? (
-          <div className="flex flex-col gap-6 w-full overflow-hidden">
-            {gallerySpaces.map((space) => (
-              <div key={space.id} className="w-full">
-                <Card className="overflow-hidden border border-border bg-card shadow-lg w-full">
-                  {renderGalleryCard(space)}
-                </Card>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="relative flex justify-center items-center h-[500px]">
-            {gallerySpaces.map((space, index) => {
-              const isHovered = hoveredIndex === index;
-              const cardStyle = getCardStyle(index);
-              return (
-                <motion.div
-                  key={space.id}
-                  initial={{ opacity: 0, y: 50, ...cardStyle }}
-                  whileInView={{ opacity: 1, y: isHovered ? -20 : 0, rotate: isHovered ? 0 : cardStyle.rotate, x: cardStyle.x, scale: isHovered ? 1.05 : 1, zIndex: isHovered ? 50 : 10 - Math.abs(index - 2) }}
-                  transition={{ duration: 0.4, delay: index * 0.15, ease: "easeOut" }}
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  className="absolute w-[320px]"
-                  style={{ zIndex: isHovered ? 50 : 10 - Math.abs(index - 2) }}
-                >
-                  <Card className={`overflow-hidden border border-border bg-card transition-shadow duration-300 ${isHovered ? 'shadow-2xl' : 'shadow-lg'}`}>
-                    {renderGalleryCard(space)}
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 w-full">
+          {gallerySpaces.map((space, index) => (
+            <motion.div
+              key={space.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+            >
+              <Card className="overflow-hidden border border-border bg-card shadow-sm hover:shadow-lg transition-shadow duration-300 w-full">
+                {renderGalleryCard(space)}
+              </Card>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
