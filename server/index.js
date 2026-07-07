@@ -468,7 +468,7 @@ app.post('/api/contact', apiLimiter, async (req, res) => {
 
     const resendClient = new Resend(process.env.RESEND_API_KEY);
     // Replace with your verified email in Resend
-    const targetEmail = 'busycutiekitty@gmail.com';
+    const targetEmail = 'atirahauni.work@gmail.com';
 
     await resendClient.emails.send({
       from: 'RUMA Contact Form <onboarding@resend.dev>',

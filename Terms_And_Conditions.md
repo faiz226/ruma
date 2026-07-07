@@ -9,7 +9,7 @@ Welcome to **RUMA by EL Stay Treat**. By booking your stay with us, you agree to
 
 ## 2. Check-In & Check-Out
 - **Check-In:** 3:00 PM onwards.
-- **Check-In Method:** [CONFIRM WITH CLIENT: Self-service via lockbox OR Meet host in person?]
+- **Check-In Method:** Check-in is self-service. Guests will receive an access code via WhatsApp prior to arrival to unlock a lockbox containing the house key.
 - **Check-Out:** 12:00 PM (Noon) strictly. 
 - Early check-in or late check-out is subject to availability and prior approval. Additional charges may apply.
 
@@ -23,7 +23,7 @@ To ensure a pleasant stay for everyone, please observe the following rules:
 - **Security:** Ensure all doors and gates are securely locked when leaving the property.
 
 ## 4. Safety Disclosures
-- **Safety Equipment:** [CONFIRM WITH CLIENT: Are smoke alarms and carbon monoxide alarms currently installed on the property?]
+- **Safety Equipment:** Please note that this property does not currently have smoke alarms or carbon monoxide detectors installed. Guests are advised to be mindful of fire and gas safety during their stay.
 
 ## 5. Liability
 The owner is not responsible for any accidents, injuries, or illnesses that occur while on the premises. The owner is not responsible for the loss of personal belongings or valuables of the guest.

@@ -77,13 +77,13 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-medium mb-4">Contact Us</h4>
             <div className="flex flex-col gap-2 mb-8">
-              <a href="tel:01112983754" className="text-background/70 hover:text-background smooth-hover text-xs font-light flex items-center gap-2">
+              <a href="tel:+601112983754" className="text-background/70 hover:text-background smooth-hover text-xs font-light flex items-center gap-2">
                 <Phone className="h-3 w-3" />
-                011-12983754 (Auni)
+                011-1298 3754 (Auni)
               </a>
-              <a href="mailto:hello@ruma-elstay.com" className="text-background/70 hover:text-background smooth-hover text-xs font-light flex items-center gap-2">
+              <a href="mailto:atirahauni.work@gmail.com" className="text-background/70 hover:text-background smooth-hover text-xs font-light flex items-center gap-2">
                 <Mail className="h-3 w-3" />
-                hello@ruma-elstay.com
+                atirahauni.work@gmail.com
               </a>
             </div>
 

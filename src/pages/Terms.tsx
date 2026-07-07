@@ -26,7 +26,7 @@ const Terms = () => {
             <h2 className="text-xl font-medium text-foreground pt-4">2. Check-In & Check-Out</h2>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong className="text-foreground font-medium">Check-In:</strong> 3:00 PM onwards.</li>
-              <li><strong className="text-foreground font-medium">Check-In Method:</strong> <span className="text-destructive font-medium">[CONFIRM WITH CLIENT: Self-service via lockbox OR Meet host in person?]</span></li>
+              <li><strong className="text-foreground font-medium">Check-In Method:</strong> Check-in is self-service. Guests will receive an access code via WhatsApp prior to arrival to unlock a lockbox containing the house key.</li>
               <li><strong className="text-foreground font-medium">Check-Out:</strong> 12:00 PM (Noon) strictly.</li>
               <li>Early check-in or late check-out is subject to availability and prior approval. Additional charges may apply.</li>
             </ul>
@@ -44,7 +44,7 @@ const Terms = () => {
 
             <h2 className="text-xl font-medium text-foreground pt-4">4. Safety Disclosures</h2>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong className="text-foreground font-medium">Safety Equipment:</strong> <span className="text-destructive font-medium">[CONFIRM WITH CLIENT: Are smoke alarms and carbon monoxide alarms currently installed on the property?]</span></li>
+              <li><strong className="text-foreground font-medium">Safety Equipment:</strong> Please note that this property does not currently have smoke alarms or carbon monoxide detectors installed. Guests are advised to be mindful of fire and gas safety during their stay.</li>
             </ul>
 
             <h2 className="text-xl font-medium text-foreground pt-4">5. Liability</h2>

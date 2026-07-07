@@ -121,7 +121,7 @@ Check in: ${dateRange?.from ? format(dateRange.from, "dd-MM-yyyy") : ''}
 Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
 
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/60148537905?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/601112983754?text=${encodedMessage}`;
     
     window.open(whatsappUrl, '_blank');
     
