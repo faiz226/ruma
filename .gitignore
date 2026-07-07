@@ -11,9 +11,21 @@ node_modules
 dist
 dist-ssr
 *.local
-.env
-server/.env
 
+# Environment files — NEVER commit these
+.env
+.env.*
+server/.env
+*.env
+
+# Database dumps & backups — NEVER commit these (may contain guest PII)
+*.backup
+*.dump
+*.sql.gz
+*.pg
+*_backup
+*.bak
+# Note: supabase/migrations/*.sql is intentionally NOT ignored (those are schema-only migration files)
 
 # Editor directories and files
 .vscode/*
