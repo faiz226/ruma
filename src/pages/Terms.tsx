@@ -52,6 +52,11 @@ const Terms = () => {
               The owner is not responsible for any accidents, injuries, or illnesses that occur while on the premises. The owner is not responsible for the loss of personal belongings or valuables of the guest.
             </p>
 
+            <h2 className="text-xl font-medium text-foreground pt-4">6. Photo & Property Representation</h2>
+            <p>
+              Photos on this website may be enhanced for lighting and presentation purposes. The property's layout, furnishings, and features are accurately represented. Actual lighting conditions and minor decorative details may vary slightly from photos.
+            </p>
+
             <p className="italic pt-4 text-xs">
               *These terms act as a basic guideline and can be customized further by the host.*
             </p>

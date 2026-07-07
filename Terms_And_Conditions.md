@@ -28,4 +28,7 @@ To ensure a pleasant stay for everyone, please observe the following rules:
 ## 5. Liability
 The owner is not responsible for any accidents, injuries, or illnesses that occur while on the premises. The owner is not responsible for the loss of personal belongings or valuables of the guest.
 
+## 6. Photo & Property Representation
+Photos on this website may be enhanced for lighting and presentation purposes. The property's layout, furnishings, and features are accurately represented. Actual lighting conditions and minor decorative details may vary slightly from photos.
+
 *These terms act as a basic guideline and can be customized further by the host.*
