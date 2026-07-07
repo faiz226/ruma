@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import LocationsComponent from "@/components/Locations";
 import Booking from "@/components/Booking";
-import bannerImage from "@/images/2.png";
+import bannerImage from "@/images/exterior.webp";
 
 const Locations = () => {
   const { scrollY } = useScroll();
