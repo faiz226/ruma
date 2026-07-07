@@ -36,9 +36,27 @@ const Admin = () => {
   const { user, loading, signOut } = useAuth();
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  const ADMIN_ALLOWLIST = ['busycutiekitty@gmail.com', 'puteriaura04@gmail.com'];
-  const isAuthorized = user?.email && ADMIN_ALLOWLIST.includes(user.email);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (!user?.email) {
+        setIsAuthorized(false);
+        return;
+      }
+      const { data } = await supabase
+        .from('admin_users')
+        .select('email')
+        .eq('email', user.email)
+        .maybeSingle();
+      
+      setIsAuthorized(!!data);
+    };
+
+    if (user && !loading) {
+      checkAdmin();
+    }
+  }, [user, loading]);
 
   type SortConfig = { key: 'guest_name' | 'dates' | 'status' | 'booking_ref', direction: 'asc' | 'desc' } | null;
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
@@ -182,12 +200,12 @@ const Admin = () => {
   useEffect(() => {
     if (!loading && !user) {
       navigate("/auth");
-    } else if (user && isAuthorized) {
+    } else if (user && isAuthorized === true) {
       fetchBookings();
     }
   }, [loading, user, isAuthorized, navigate]);
 
-  if (loading) {
+  if (loading || (user && isAuthorized === null)) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="text-sm text-muted-foreground font-light">Loading...</p>
