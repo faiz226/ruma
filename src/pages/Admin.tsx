@@ -17,15 +17,18 @@ import {
 } from "@/components/ui/table";
 import {
   Dialog,
-  DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogContent,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
+import { DiscountCodes } from "@/components/DiscountCodes";
 
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -61,6 +64,7 @@ const Admin = () => {
   type SortConfig = { key: 'guest_name' | 'dates' | 'status' | 'booking_ref', direction: 'asc' | 'desc' } | null;
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
   const [expandedBookings, setExpandedBookings] = useState<Record<string, boolean>>({});
+  const [dataView, setDataView] = useState<'live' | 'test' | 'all'>('live');
 
   const toggleExpandRow = (id: string) => {
     setExpandedBookings(prev => ({
@@ -78,7 +82,10 @@ const Admin = () => {
     checkIn: "",
     checkOut: "",
     status: "PAID",
-    notes: ""
+    notes: "",
+    adjustmentAmount: "",
+    adjustmentReason: "",
+    discountCode: ""
   });
 
   const handleCreateBooking = async (e: React.FormEvent) => {
@@ -111,7 +118,10 @@ const Admin = () => {
           guestEmail: newBooking.email,
           guestPhone: newBooking.phone,
           status: newBooking.status,
-          notes: newBooking.notes
+          notes: newBooking.notes,
+          adjustmentAmount: newBooking.adjustmentAmount || undefined,
+          adjustmentReason: newBooking.adjustmentReason || undefined,
+          discountCode: newBooking.discountCode || undefined
         })
       });
       const data = await response.json();
@@ -120,7 +130,7 @@ const Admin = () => {
       toast.success("Booking created & integrations triggered successfully!");
       setIsCreateOpen(false);
       fetchBookings();
-      setNewBooking({ name: "", email: "", phone: "", checkIn: "", checkOut: "", status: "PAID", notes: "" });
+      setNewBooking({ name: "", email: "", phone: "", checkIn: "", checkOut: "", status: "PAID", notes: "", adjustmentAmount: "", adjustmentReason: "", discountCode: "" });
     } catch (err: any) {
       toast.error(err.message || "Failed to create booking");
     } finally {
@@ -129,7 +139,7 @@ const Admin = () => {
   };
 
   const [modifyBookingId, setModifyBookingId] = useState<string | null>(null);
-  const [modifyDates, setModifyDates] = useState({ checkIn: "", checkOut: "", status: "PAID", notes: "" });
+  const [modifyDates, setModifyDates] = useState({ checkIn: "", checkOut: "", status: "PAID", notes: "", adjustmentAmount: "", adjustmentReason: "" });
   const [isModifying, setIsModifying] = useState(false);
 
   const openModifyDialog = (booking: any) => {
@@ -138,7 +148,9 @@ const Admin = () => {
         checkIn: booking.check_in.split('T')[0],
         checkOut: booking.check_out.split('T')[0],
         status: booking.status || "PAID",
-        notes: booking.notes || ""
+        notes: booking.notes || "",
+        adjustmentAmount: booking.adjustment_cents ? (booking.adjustment_cents / 100).toString() : "",
+        adjustmentReason: booking.adjustment_reason || ""
     });
   };
 
@@ -166,7 +178,9 @@ const Admin = () => {
           checkIn: modifyDates.checkIn,
           checkOut: modifyDates.checkOut,
           status: modifyDates.status,
-          notes: modifyDates.notes
+          notes: modifyDates.notes,
+          adjustmentAmount: modifyDates.adjustmentAmount || undefined,
+          adjustmentReason: modifyDates.adjustmentReason || undefined
         })
       });
       const data = await response.json();
@@ -273,7 +287,13 @@ const Admin = () => {
     setSortConfig({ key, direction });
   };
 
-  const filteredBookings = [...bookings].sort((a, b) => {
+  const viewBookings = bookings.filter(b => {
+    if (dataView === 'live') return !b.is_test;
+    if (dataView === 'test') return b.is_test === true;
+    return true;
+  });
+
+  const filteredBookings = [...viewBookings].sort((a, b) => {
     if (!sortConfig) return 0;
     
     let aValue = a[sortConfig.key] || a.id;
@@ -306,22 +326,21 @@ const Admin = () => {
   };
 
   const stats = {
-    total: bookings.length,
-    upcoming: bookings.filter(b => new Date(b.check_in) >= new Date() && (b.status === 'PAID' || b.status === 'confirmed')).length,
-    pending: bookings.filter(b => b.status === 'PENDING_PAYMENT').length,
+    total: viewBookings.length,
+    upcoming: viewBookings.filter(b => new Date(b.check_in) >= new Date() && (b.status === 'PAID' || b.status === 'confirmed')).length,
+    pending: viewBookings.filter(b => b.status === 'PENDING_PAYMENT').length,
   };
 
   const calculateRevenue = () => {
-    return bookings
+    return viewBookings
       .filter(b => b.status === 'PAID' || b.status === 'confirmed')
       .reduce((sum, b) => {
         if (b.total_price_cents) {
           return sum + (b.total_price_cents / 100);
         }
-        // Fallback for mock data if any
         const nights = Math.ceil((new Date(b.check_out).getTime() - new Date(b.check_in).getTime()) / (1000 * 60 * 60 * 24));
         const day = new Date(b.check_in).getDay();
-        const price = (day === 5 || day === 6) ? 270 : 240;
+        const price = (day === 5 || day === 6 || day === 0) ? 270 : 250;
         return sum + (price * nights);
       }, 0);
   };
@@ -359,6 +378,32 @@ const Admin = () => {
                   Sign Out
                 </Button>
             </div>
+
+            {/* Data View Toggle */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-1 bg-muted/50 rounded-lg p-1 w-fit">
+                <span className="text-[10px] text-muted-foreground uppercase tracking-wider px-2">Show:</span>
+                {(['live', 'test', 'all'] as const).map(v => (
+                  <button
+                    key={v}
+                    onClick={() => setDataView(v)}
+                    className={`px-3 py-1 rounded-md text-[11px] uppercase tracking-wider transition-all ${
+                      dataView === v
+                        ? 'bg-background shadow-sm text-foreground font-medium'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {v === 'live' ? 'Live Only' : v === 'test' ? 'Test Only' : 'All'}
+                  </button>
+                ))}
+              </div>
+              {dataView === 'test' && (
+                <span className="text-[10px] text-yellow-600 bg-yellow-50 border border-yellow-200 rounded px-2 py-1">⚠ Showing test data</span>
+              )}
+              {dataView === 'all' && (
+                <span className="text-[10px] text-muted-foreground bg-muted/30 border border-border rounded px-2 py-1">Showing all bookings including test</span>
+              )}
+            </div>
             
             <div className="flex justify-between items-end mb-3">
               <div>
@@ -377,11 +422,12 @@ const Admin = () => {
                     Create Booking
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-[480px]">
                   <DialogHeader>
                     <DialogTitle className="font-light text-xl">Create Manual Booking</DialogTitle>
                   </DialogHeader>
-                  <form onSubmit={handleCreateBooking} className="space-y-4 mt-4">
+                  <form onSubmit={handleCreateBooking} className="space-y-4 mt-2">
+                    <div className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-xs font-medium uppercase tracking-wider">Guest Name</Label>
                       <Input id="name" value={newBooking.name} onChange={(e) => setNewBooking({...newBooking, name: e.target.value})} required className="font-light" />
@@ -421,6 +467,22 @@ const Admin = () => {
                         <Label htmlFor="notes" className="text-xs font-medium uppercase tracking-wider">Notes</Label>
                         <Input id="notes" placeholder="Optional notes" value={newBooking.notes} onChange={(e) => setNewBooking({...newBooking, notes: e.target.value})} className="font-light" />
                       </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="adjustmentAmount" className="text-xs font-medium uppercase tracking-wider">Manual Adj. (RM)</Label>
+                        <Input id="adjustmentAmount" type="number" placeholder="-50 or 100" value={newBooking.adjustmentAmount} onChange={(e) => setNewBooking({...newBooking, adjustmentAmount: e.target.value})} className="font-light" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="adjustmentReason" className="text-xs font-medium uppercase tracking-wider">Adj. Reason</Label>
+                        <Input id="adjustmentReason" placeholder="e.g. Damage penalty" value={newBooking.adjustmentReason} onChange={(e) => setNewBooking({...newBooking, adjustmentReason: e.target.value})} className="font-light" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="discountCode" className="text-xs font-medium uppercase tracking-wider">Discount Code (Optional)</Label>
+                      <Input id="discountCode" placeholder="e.g. WELCOME10" value={newBooking.discountCode} onChange={(e) => setNewBooking({...newBooking, discountCode: e.target.value.toUpperCase()})} className="font-light uppercase" />
+                      <p className="text-[10px] text-muted-foreground mt-1">Code will be validated and applied automatically on confirm.</p>
+                    </div>
                     </div>
                     <div className="pt-4 flex justify-end">
                       <Button type="submit" disabled={isCreating} className="w-full text-[11px] uppercase tracking-wider font-normal">
@@ -483,12 +545,22 @@ const Admin = () => {
             </Card>
           </motion.div>
 
-          {/* Bookings Table */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
+          {/* Tabs for Bookings and Analytics */}
+          <Tabs defaultValue="bookings" className="w-full">
+            <div className="flex items-center justify-between mb-4">
+              <TabsList>
+                <TabsTrigger value="bookings" className="text-xs uppercase tracking-wider">Bookings</TabsTrigger>
+                <TabsTrigger value="analytics" className="text-xs uppercase tracking-wider">Analytics</TabsTrigger>
+                <TabsTrigger value="discounts" className="text-xs uppercase tracking-wider">Discount Codes</TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="bookings" className="mt-0">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
             <Card className="border border-border shadow-soft overflow-hidden">
               <div className="overflow-x-auto">
                 <Table>
@@ -552,12 +624,24 @@ const Admin = () => {
                                 </div>
                               </TableCell>
                               <TableCell>
-                                <Badge 
-                                  variant="outline" 
-                                  className={`text-xs font-light capitalize ${getStatusColor(booking.status)}`}
-                                >
-                                  {booking.status?.replace('_', ' ')}
-                                </Badge>
+                                <div className="flex flex-col gap-1 items-start">
+                                  <Badge 
+                                    variant="outline" 
+                                    className={`text-xs font-light capitalize ${getStatusColor(booking.status)}`}
+                                  >
+                                    {booking.status?.replace('_', ' ')}
+                                  </Badge>
+                                  {booking.discount_code_id ? (
+                                    <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-green-50 text-green-700 whitespace-nowrap">
+                                      Code: {booking.discount_code} (-RM{(booking.discount_cents / 100).toFixed(2)})
+                                    </Badge>
+                                  ) : null}
+                                  {booking.adjustment_cents ? (
+                                    <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-muted text-muted-foreground whitespace-nowrap">
+                                      Adj: {booking.adjustment_cents > 0 ? '+' : ''}RM{(booking.adjustment_cents / 100).toFixed(2)}
+                                    </Badge>
+                                  ) : null}
+                                </div>
                               </TableCell>
                               <TableCell>
                                 <div className="flex flex-col gap-1">
@@ -615,6 +699,17 @@ const Admin = () => {
                                 </TableCell>
                               </TableRow>
                             )}
+                            {booking.adjustment_reason && (
+                              <TableRow className="bg-muted/5 border-border">
+                                <TableCell />
+                                <TableCell colSpan={5} className="py-2 px-4 bg-muted/5 border-t-0">
+                                  <div className="flex flex-col gap-1 border-l-2 border-primary/30 pl-3 py-0.5 text-left">
+                                    <span className="font-medium text-foreground uppercase tracking-wider text-[9px]">Price Adjustment</span>
+                                    <p className="whitespace-pre-wrap leading-relaxed text-xs font-light text-muted-foreground">{booking.adjustment_cents > 0 ? '+' : ''}RM{(booking.adjustment_cents/100).toFixed(2)} - {booking.adjustment_reason}</p>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            )}
                           </Fragment>
                         );
                       })}
@@ -628,16 +723,35 @@ const Admin = () => {
                     </div>
                   )}
                 </Card>
-          </motion.div>
+              </motion.div>
+            </TabsContent>
+
+            <TabsContent value="analytics" className="mt-0">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <AnalyticsDashboard bookings={viewBookings} />
+              </motion.div>
+            </TabsContent>
+            
+            <TabsContent value="discounts" className="mt-0">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+                <DiscountCodes />
+              </motion.div>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
       {/* Modify Booking Dialog */}
       <Dialog open={!!modifyBookingId} onOpenChange={(open) => !open && setModifyBookingId(null)}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[480px]">
           <DialogHeader>
             <DialogTitle className="font-light text-xl">Modify Booking Dates</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleModifyBooking} className="space-y-4 mt-4">
+          <form onSubmit={handleModifyBooking} className="space-y-4 mt-2">
+            <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="modCheckIn" className="text-xs font-medium uppercase tracking-wider">New Check In</Label>
@@ -665,6 +779,17 @@ const Admin = () => {
                 <Label htmlFor="modNotes" className="text-xs font-medium uppercase tracking-wider">Notes</Label>
                 <Input id="modNotes" placeholder="Optional notes" value={modifyDates.notes} onChange={(e) => setModifyDates({...modifyDates, notes: e.target.value})} className="font-light" />
               </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="modAdjAmount" className="text-xs font-medium uppercase tracking-wider">Adjustment (RM)</Label>
+                <Input id="modAdjAmount" type="number" placeholder="-50 or 100" value={modifyDates.adjustmentAmount} onChange={(e) => setModifyDates({...modifyDates, adjustmentAmount: e.target.value})} className="font-light" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="modAdjReason" className="text-xs font-medium uppercase tracking-wider">Reason</Label>
+                <Input id="modAdjReason" placeholder="e.g. Loyalty discount" value={modifyDates.adjustmentReason} onChange={(e) => setModifyDates({...modifyDates, adjustmentReason: e.target.value})} className="font-light" />
+              </div>
+            </div>
             </div>
             <div className="pt-4 flex justify-end">
               <Button type="submit" disabled={isModifying} className="w-full text-[11px] uppercase tracking-wider font-normal">

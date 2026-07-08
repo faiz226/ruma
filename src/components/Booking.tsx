@@ -12,6 +12,8 @@ import { CalendarDays, ArrowRight, ArrowLeft, CheckCircle, User, Phone, Mail, Ma
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 
+
+
 const slideVariants = {
   enter: (direction: number) => ({
     x: direction > 0 ? 300 : -300,
@@ -43,6 +45,23 @@ const Booking = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingRef, setBookingRef] = useState("");
   const [bookedDates, setBookedDates] = useState<{start: Date, end: Date}[]>([]);
+  const [publicHolidays, setPublicHolidays] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchHolidays = async () => {
+      try {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+        const res = await fetch(`${backendUrl}/api/holidays`);
+        if (res.ok) {
+          const data = await res.json();
+          setPublicHolidays(data.holidays || []);
+        }
+      } catch (err) {
+        console.error("Failed to fetch holidays:", err);
+      }
+    };
+    fetchHolidays();
+  }, []);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -114,11 +133,10 @@ const Booking = () => {
     setIsSubmitting(true);
     
     // Construct WhatsApp message
-    const message = `NAME: ${name}
+    const message = `Hello, I would like to continue to payment for booking ${dateRange?.from ? format(dateRange.from, "dd-MM-yyyy") : ''} to ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}.
+Name: ${name}
 Email: ${email}
-Phone: ${phone}
-Check in: ${dateRange?.from ? format(dateRange.from, "dd-MM-yyyy") : ''}
-Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
+Phone: ${phone}`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/601112983754?text=${encodedMessage}`;
@@ -153,11 +171,18 @@ Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
     
     while (currentDate < endDate) {
       const day = currentDate.getDay();
-      // Friday (5) and Saturday (6) are weekends
-      if (day === 5 || day === 6) {
+      const yyyy = currentDate.getFullYear();
+      const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(currentDate.getDate()).padStart(2, '0');
+      const dateString = `${yyyy}-${mm}-${dd}`;
+      
+      const isPublicHoliday = publicHolidays.includes(dateString);
+
+      // Friday (5), Saturday (6), Sunday (0) or Public Holiday are RM270, else RM250
+      if (day === 5 || day === 6 || day === 0 || isPublicHoliday) {
         total += 270;
       } else {
-        total += 240;
+        total += 250;
       }
       currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -235,8 +260,8 @@ Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
                         <div className="bg-card/50 rounded-md p-4 mb-4 border border-border">
                           <p className="text-sm font-medium mb-2">Homestay Pricing</p>
                           <div className="text-xs text-muted-foreground space-y-1">
-                            <p>Weekday Rate: RM240 / night (Sun - Thu)</p>
-                            <p>Weekend Rate: RM270 / night (Fri - Sat)</p>
+                            <p>Weekday Rate: RM250 / night (Mon - Thu)</p>
+                            <p>Weekend & Holiday Rate: RM270 / night (Fri - Sun, Public Holidays)</p>
                           </div>
                         </div>
                       </div>
@@ -258,6 +283,18 @@ Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
                         <CalendarDays className="h-3 w-3" />
                         Check-in & Check-out
                       </Label>
+                      <style>{`
+                        .is-holiday::after {
+                          content: '*';
+                          position: absolute;
+                          top: 2px;
+                          right: 4px;
+                          color: #ef4444;
+                          font-size: 14px;
+                          line-height: 1;
+                          font-weight: bold;
+                        }
+                      `}</style>
                       <Calendar
                         mode="range"
                         selected={dateRange}
@@ -265,7 +302,12 @@ Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
                         numberOfMonths={1}
                         className="rounded-md border-border shadow-soft text-sm pointer-events-auto"
                         disabled={isDateDisabled}
+                        modifiers={{ holiday: publicHolidays.map(d => new Date(`${d}T00:00:00`)) }}
+                        modifiersClassNames={{ holiday: "is-holiday relative" }}
                       />
+                      <div className="mt-2 text-[10px] text-muted-foreground flex items-center">
+                        <span className="text-red-500 font-bold mr-1 text-sm">*</span> Public holiday (weekend rate applies)
+                      </div>
                       {dateRange?.from && dateRange?.to && (
                         <div className="mt-4 p-3 bg-primary/10 rounded-md text-center">
                           <p className="text-xs text-foreground font-medium">
@@ -417,7 +459,7 @@ Check out: ${dateRange?.to ? format(dateRange.to, "dd-MM-yyyy") : ''}`;
                     <div className="bg-accent/30 rounded-md p-4 max-w-sm mx-auto text-left space-y-2">
                       <p className="text-xs text-muted-foreground uppercase tracking-wider">Booking Summary</p>
                       <div className="text-sm font-light text-foreground space-y-1">
-                        <p><span className="text-muted-foreground">Property:</span> RUMA by EL Stay Treat</p>
+                        <p><span className="text-muted-foreground">Property:</span> RUMA Rivervale</p>
                         <p><span className="text-muted-foreground">Dates:</span> {formatDateRange()}</p>
                         <p className="font-medium text-primary mt-2 pt-2 border-t border-border"><span className="text-muted-foreground">Total Price:</span> RM{calculatePrice()}</p>
                         {bookingRef && <p><span className="text-muted-foreground">Reference:</span> {bookingRef}</p>}

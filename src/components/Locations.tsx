@@ -111,7 +111,7 @@ const Locations = () => {
             Gallery
           </span>
           <h3 className="text-xl md:text-2xl font-light mb-2 text-foreground tracking-tight">
-            Inside RUMA Homestay
+            Inside RUMA Rivervale
           </h3>
         </motion.div>
 

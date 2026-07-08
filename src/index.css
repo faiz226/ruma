@@ -112,6 +112,54 @@ All colors MUST be HSL.
   html {
     scroll-behavior: smooth;
   }
+
+  @supports (mask-image: paint(squircle)) {
+    /* G2 Continuity: squircle mask on all rounded elements.
+       We do NOT strip border-radius — it stays as the shadow/overflow/hitbox fallback.
+       The squircle mask paints the visual shape on top. */
+    [class*="rounded-sm"] {
+      mask-image: paint(squircle);
+      -webkit-mask-image: paint(squircle);
+      --squircle-smooth: 1;
+      --squircle-radius: 4px;
+    }
+    [class*="rounded-md"] {
+      mask-image: paint(squircle);
+      -webkit-mask-image: paint(squircle);
+      --squircle-smooth: 1;
+      --squircle-radius: 6px;
+    }
+    [class*="rounded-lg"] {
+      mask-image: paint(squircle);
+      -webkit-mask-image: paint(squircle);
+      --squircle-smooth: 1;
+      --squircle-radius: 8px;
+    }
+    [class*="rounded-xl"] {
+      mask-image: paint(squircle);
+      -webkit-mask-image: paint(squircle);
+      --squircle-smooth: 1;
+      --squircle-radius: 12px;
+    }
+    [class*="rounded-2xl"] {
+      mask-image: paint(squircle);
+      -webkit-mask-image: paint(squircle);
+      --squircle-smooth: 1;
+      --squircle-radius: 16px;
+    }
+    [class*="rounded-3xl"] {
+      mask-image: paint(squircle);
+      -webkit-mask-image: paint(squircle);
+      --squircle-smooth: 1;
+      --squircle-radius: 24px;
+    }
+    [class*="rounded-full"] {
+      mask-image: paint(squircle);
+      -webkit-mask-image: paint(squircle);
+      --squircle-smooth: 1;
+      --squircle-radius: 999px;
+    }
+  }
 }
 
 @layer utilities {

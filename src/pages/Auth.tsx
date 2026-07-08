@@ -88,7 +88,7 @@ const Auth = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             <Home className="h-5 w-5 text-primary" />
             <span className="text-sm font-normal tracking-wide text-background">
-              RUMA by EL Stay Treat
+              RUMA Rivervale
             </span>
           </div>
           <h1 className="text-2xl font-light text-background mb-2 tracking-tight">

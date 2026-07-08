@@ -1,10 +1,10 @@
 # Terms and Conditions (Booking Policy & House Rules)
 
-Welcome to **RUMA by EL Stay Treat**. By booking your stay with us, you agree to the following terms and conditions.
+Welcome to **RUMA Rivervale**. By booking your stay with us, you agree to the following terms and conditions.
 
 ## 1. Booking & Payment Policy
 - **Manual Booking:** All bookings must be confirmed manually via WhatsApp. Your reservation is only secured once we have received the full payment or deposit (as agreed via chat).
-- **Payment Method:** Payments are accepted via Bank Transfer (DuitNow/Online Banking) or Touch 'n Go eWallet directly to the owner.
+- **Payment Method:** Payments are accepted via Bank Transfer (DuitNow/Online Banking) directly to the owner.
 - **Security Deposit:** A refundable security deposit may be required before check-in. It will be refunded within 24 hours of check-out, provided there are no damages or missing items.
 
 ## 2. Check-In & Check-Out
@@ -15,7 +15,7 @@ Welcome to **RUMA by EL Stay Treat**. By booking your stay with us, you agree to
 
 ## 3. House Rules
 To ensure a pleasant stay for everyone, please observe the following rules:
-- **Maximum Capacity:** The property accommodates a maximum of 5 guests.
+- **Maximum Capacity:** The property accommodates a maximum of 6 guests + 3 children.
 - **No Smoking:** Smoking is strictly prohibited inside the house. You may smoke in designated outdoor areas only.
 - **No Pets:** Pets are not allowed on the premises.
 - **No Parties/Events:** Quiet hours are from 10:00 PM to 8:00 AM to respect the neighbors.

@@ -1,5 +1,5 @@
-# RUMA Homestay - Admin Booking Guide 🏠
-*Panduan Pengurusan Tempahan RUMA Homestay*
+# RUMA Rivervale - Admin Booking Guide 🏠
+*Panduan Pengurusan Tempahan RUMA Rivervale*
 
 Welcome to your RUMA Admin Dashboard! This guide will show you how to manage your bookings manually after confirming them with your guests via WhatsApp or phone.
 

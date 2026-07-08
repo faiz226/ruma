@@ -25,10 +25,10 @@ const RefundPolicy = () => {
             </ul>
 
             <h2 className="text-xl font-medium text-foreground pt-4">2. Refund Processing</h2>
-            <p>Since payments are handled manually via Bank Transfer or Touch 'n Go eWallet:</p>
+            <p>Since payments are handled manually via Bank Transfer (DuitNow/Online Banking):</p>
             <ul className="list-disc pl-5 space-y-2">
               <li>Approved refunds will be processed manually by the owner.</li>
-              <li>Please provide your preferred bank account or TNG eWallet details when requesting a refund.</li>
+              <li>Please provide your preferred bank account details when requesting a refund.</li>
               <li>Refunds will typically be transferred within <strong className="text-foreground font-medium">2 to 3 business days</strong> of the cancellation approval.</li>
             </ul>
 

@@ -64,7 +64,7 @@ const Navigation = ({
           }} className="flex items-center gap-2 cursor-pointer">
               <img
                 src="/logo.png"
-                alt="RUMA by EL Stay Treat"
+                alt="RUMA Rivervale"
                 className={`h-12 w-auto object-contain transition-all duration-300 ${isMobileMenuOpen || isDark || !isScrolled ? "brightness-0 invert" : ""}`}
               />
             </motion.div>

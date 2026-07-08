@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { User, Mail, MessageSquare, FileText } from "lucide-react";
+import { User, Mail, MessageSquare, FileText, Phone } from "lucide-react";
 import bannerImage from "@/assets/detail-meadow-1.jpg";
 
 const Contact = () => {
@@ -96,9 +96,19 @@ const Contact = () => {
             <h1 className="text-2xl md:text-3xl font-light tracking-tight text-foreground mb-4">
               Get in Touch
             </h1>
-            <p className="text-sm text-muted-foreground font-light">
+            <p className="text-sm text-muted-foreground font-light mb-6">
               Have a question or want to book a stay? We'd love to hear from you.
             </p>
+            <div className="flex flex-col items-center gap-3 text-sm text-foreground">
+              <a href="mailto:atirahauni.work@gmail.com" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Mail className="h-4 w-4" />
+                atirahauni.work@gmail.com
+              </a>
+              <a href="https://wa.me/601112983754" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Phone className="h-4 w-4" />
+                011-1298 3754 (WhatsApp)
+              </a>
+            </div>
           </div>
 
           <Card className="p-8 lg:p-10 shadow-soft border border-border bg-card">

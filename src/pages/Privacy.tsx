@@ -17,7 +17,7 @@ const Privacy = () => {
 
           <div className="text-muted-foreground text-sm md:text-base leading-relaxed space-y-6">
             <p>
-              At <strong className="text-foreground font-medium">RUMA by EL Stay Treat</strong>, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your personal information in compliance with the Personal Data Protection Act (PDPA) of Malaysia.
+              At <strong className="text-foreground font-medium">RUMA Rivervale</strong>, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your personal information in compliance with the Personal Data Protection Act (PDPA) of Malaysia.
             </p>
 
             <h2 className="text-xl font-medium text-foreground pt-4">1. Information We Collect</h2>

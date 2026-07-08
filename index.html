@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RUMA by EL Stay Treat — Feel at Home in Rivervale, KotaSAS</title>
-    <meta name="description" content="A guarded, comfortable 3-bedroom homestay fully equipped for a home-like stay in Rivervale, KotaSAS. Book your stay at RUMA by EL Stay Treat." />
-    <meta name="author" content="RUMA by EL Stay Treat" />
+    <title>RUMA Rivervale — Feel at Home in Rivervale, KotaSAS</title>
+    <meta name="description" content="A guarded, comfortable 3-bedroom homestay fully equipped for a home-like stay in Rivervale, KotaSAS. Book your stay at RUMA Rivervale." />
+    <meta name="author" content="RUMA Rivervale" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 
-    <meta property="og:title" content="RUMA by EL Stay Treat" />
+    <meta property="og:title" content="RUMA Rivervale" />
     <meta property="og:description" content="A guarded, comfortable 3-bedroom homestay fully equipped for a home-like stay in Rivervale, KotaSAS." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/logo.png" />
@@ -25,5 +25,10 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('paintWorklet' in CSS) {
+        CSS.paintWorklet.addModule('https://unpkg.com/css-houdini-squircle@0.2.1/squircle.min.js');
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,1 @@
+ALTER TABLE bookings ADD COLUMN adjustment_cents INT DEFAULT 0; ALTER TABLE bookings ADD COLUMN adjustment_reason TEXT;

@@ -8,9 +8,9 @@ We understand that plans can change. To keep things fair for both our guests and
 - **No Refund:** Cancellations made **less than 48 hours** before the check-in time, or "no-shows," are not eligible for any refund.
 
 ## 2. Refund Processing
-Since payments are handled manually via Bank Transfer or Touch 'n Go eWallet:
+Since payments are handled manually via Bank Transfer (DuitNow/Online Banking):
 - Approved refunds will be processed manually by the owner.
-- Please provide your preferred bank account or TNG eWallet details when requesting a refund.
+- Please provide your preferred bank account details when requesting a refund.
 - Refunds will typically be transferred within **2 to 3 business days** of the cancellation approval.
 
 ## 3. Date Modifications

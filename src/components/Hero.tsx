@@ -9,12 +9,12 @@ import slide5 from "@/images/dining_area.webp"; // 12
 import slide6 from "@/images/master_bedroom_1.webp"; // 9
 
 const slides = [
-  { image: slide1, alt: "RUMA by EL Stay Treat 1", mobileClass: "object-[60%_center] md:object-center" },
-  { image: slide2, alt: "RUMA by EL Stay Treat 2", mobileClass: "object-[30%_center] md:object-center" },
-  { image: slide3, alt: "RUMA by EL Stay Treat 3", mobileClass: "object-[60%_center] md:object-center" },
-  { image: slide4, alt: "RUMA by EL Stay Treat 4", mobileClass: "object-[30%_center] md:object-center" },
-  { image: slide5, alt: "RUMA by EL Stay Treat 5", mobileClass: "object-[center_85%] md:object-center" },
-  { image: slide6, alt: "RUMA by EL Stay Treat 6", mobileClass: "object-center" },
+  { image: slide1, alt: "RUMA Rivervale 1", mobileClass: "object-[60%_center] md:object-center" },
+  { image: slide2, alt: "RUMA Rivervale 2", mobileClass: "object-[30%_center] md:object-center" },
+  { image: slide3, alt: "RUMA Rivervale 3", mobileClass: "object-[60%_center] md:object-center" },
+  { image: slide4, alt: "RUMA Rivervale 4", mobileClass: "object-[30%_center] md:object-center" },
+  { image: slide5, alt: "RUMA Rivervale 5", mobileClass: "object-[center_85%] md:object-center" },
+  { image: slide6, alt: "RUMA Rivervale 6", mobileClass: "object-center" },
 ];
 
 const SLIDE_DURATION = 5000;

@@ -2,7 +2,7 @@
 
 **Effective Date:** July 2026
 
-At **RUMA by EL Stay Treat**, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your personal information in compliance with the Personal Data Protection Act (PDPA) of Malaysia.
+At **RUMA Rivervale**, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your personal information in compliance with the Personal Data Protection Act (PDPA) of Malaysia.
 
 ## 1. Information We Collect
 When you make a booking inquiry via our website and WhatsApp, we collect the following personal information:

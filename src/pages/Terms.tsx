@@ -12,14 +12,12 @@ const Terms = () => {
             Terms and Conditions (Booking Policy & House Rules)
           </h1>
           <div className="text-muted-foreground text-sm md:text-base leading-relaxed space-y-6">
-            <p>
-              Welcome to <strong className="text-foreground font-medium">RUMA by EL Stay Treat</strong>. By booking your stay with us, you agree to the following terms and conditions.
-            </p>
+              Welcome to <strong className="text-foreground font-medium">RUMA Rivervale</strong>. By booking your stay with us, you agree to the following terms and conditions.
 
             <h2 className="text-xl font-medium text-foreground pt-4">1. Booking & Payment Policy</h2>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong className="text-foreground font-medium">Manual Booking:</strong> All bookings must be confirmed manually via WhatsApp. Your reservation is only secured once we have received the full payment or deposit (as agreed via chat).</li>
-              <li><strong className="text-foreground font-medium">Payment Method:</strong> Payments are accepted via Bank Transfer (DuitNow/Online Banking) or Touch 'n Go eWallet directly to the owner.</li>
+              <li><strong className="text-foreground font-medium">Payment Method:</strong> Payments are accepted via Bank Transfer (DuitNow/Online Banking) directly to the owner.</li>
               <li><strong className="text-foreground font-medium">Security Deposit:</strong> A refundable security deposit may be required before check-in. It will be refunded within 24 hours of check-out, provided there are no damages or missing items.</li>
             </ul>
 
@@ -34,7 +32,7 @@ const Terms = () => {
             <h2 className="text-xl font-medium text-foreground pt-4">3. House Rules</h2>
             <p>To ensure a pleasant stay for everyone, please observe the following rules:</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong className="text-foreground font-medium">Maximum Capacity:</strong> The property accommodates a maximum of 5 guests.</li>
+              <li><strong className="text-foreground font-medium">Maximum Capacity:</strong> The property accommodates a maximum of 6 guests + 3 children.</li>
               <li><strong className="text-foreground font-medium">No Smoking:</strong> Smoking is strictly prohibited inside the house. You may smoke in designated outdoor areas only.</li>
               <li><strong className="text-foreground font-medium">No Pets:</strong> Pets are not allowed on the premises.</li>
               <li><strong className="text-foreground font-medium">No Parties/Events:</strong> Quiet hours are from 10:00 PM to 8:00 AM to respect the neighbors.</li>
