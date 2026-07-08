@@ -95,7 +95,7 @@ const sendConfirmationEmail = async (booking) => {
                    .replace(/{{amountPaid}}/g, (booking.total_price_cents / 100).toFixed(2));
 
         await resend.emails.send({
-            from: 'RUMA Homestay <onboarding@resend.dev>',
+            from: 'RUMA Rivervale <onboarding@resend.dev>',
             to: booking.guest_email,
             subject: `Booking Confirmed - ${booking.booking_ref}`,
             html: html

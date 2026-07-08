@@ -205,10 +205,21 @@ const logToGoogleSheet = async (booking) => {
   const auth = getGoogleAuth();
   if (!auth) return;
   const sheets = google.sheets({ version: 'v4', auth });
+  const tabName = !booking.is_test ? 'RUMA Rivervale Live' : 'RUMA Rivervale Test';
+  const spreadsheetId = process.env.GOOGLE_SHEET_ID;
   try {
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: `${process.env.SHEET_ENV === 'live' ? 'RUMA Rivervale Live' : 'RUMA Rivervale Test'}!A:N`,
+    // Find next empty row by counting values in column A only.
+    // This avoids the Google Sheets API bug where `values.append` detects the
+    // last non-empty cell in ANY column of the range and offsets new rows.
+    const countRes = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${tabName}!A:A`,
+    });
+    const nextRow = ((countRes.data.values || []).length) + 1;
+
+    await sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: `${tabName}!A${nextRow}:N${nextRow}`,
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [[
@@ -229,7 +240,7 @@ const logToGoogleSheet = async (booking) => {
         ]]
       }
     });
-    console.log(`Logged ${booking.booking_ref} to Google Sheets`);
+    console.log(`Logged ${booking.booking_ref} to Google Sheets tab '${tabName}' at row ${nextRow}`);
   } catch (err) {
     console.error("Google Sheets Error:");
     console.error("- Message:", err.message);
@@ -456,7 +467,8 @@ app.post('/api/admin/bookings/create', apiLimiter, authenticateAdmin, async (req
       .eq('room_id', actualRoomId)
       .lt('check_in', checkOut)
       .gt('check_out', checkIn)
-      .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT']);
+      .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT'])
+      .or('is_test.is.null,is_test.eq.false');
 
     if (conflicting && conflicting.length > 0) {
       return res.status(400).json({ error: 'Dates are already booked.' });
@@ -539,7 +551,8 @@ app.post('/api/admin/bookings/modify', apiLimiter, authenticateAdmin, async (req
       .neq('id', bookingId)
       .lt('check_in', checkOut)
       .gt('check_out', checkIn)
-      .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT']);
+      .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT'])
+      .or('is_test.is.null,is_test.eq.false');
 
     if (conflicting && conflicting.length > 0) {
       return res.status(400).json({ error: 'Dates are already booked by another guest.' });

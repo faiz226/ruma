@@ -68,7 +68,8 @@ const Booking = () => {
       const { data, error } = await supabase
         .from('bookings')
         .select('check_in, check_out, status, locked_until')
-        .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT']);
+        .in('status', ['PAID', 'confirmed', 'PENDING_PAYMENT'])
+        .or('is_test.is.null,is_test.eq.false');
         
       if (data && !error) {
         const validBookings = data;
