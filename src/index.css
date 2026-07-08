@@ -110,7 +110,7 @@ All colors MUST be HSL.
   }
   
   html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth handled by Lenis */
   }
 
   @supports (mask-image: paint(squircle)) {
