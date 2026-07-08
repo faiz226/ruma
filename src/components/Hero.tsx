@@ -87,8 +87,8 @@ const Hero = () => {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight max-w-md text-left flex flex-col"
         >
-          <span>RUMA by</span>
-          <span>EL Stay Treat</span>
+          <span>RUMA</span>
+          <span>Rivervale</span>
           <span className="text-2xl mt-4 italic text-white/90">"Feel at home"</span>
         </motion.h1>
 

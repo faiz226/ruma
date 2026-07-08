@@ -56,7 +56,7 @@ const About = () => {
             >
               <span className="text-[11px] uppercase tracking-wider text-muted-foreground">About Us</span>
               <h1 className="text-2xl md:text-3xl font-light tracking-tight mt-2 mb-8">
-                About RUMA by EL Stay Treat
+                About RUMA Rivervale
               </h1>
 
               <div className="space-y-6 text-muted-foreground font-light leading-relaxed">
@@ -65,7 +65,7 @@ const About = () => {
                   just minutes from Kuantan's main attractions.
                 </p>
                 <p>
-                  We started EL Stay Treat with a simple goal: to give travelers a place that genuinely feels like
+                  We started RUMA with a simple goal: to give travelers a place that genuinely feels like
                   home, not just another place to sleep. Whether you're visiting for a family getaway, a quiet
                   retreat, or a short work trip, we've designed RUMA to be comfortable, clean, and welcoming for
                   everyone — from young families to larger groups.
