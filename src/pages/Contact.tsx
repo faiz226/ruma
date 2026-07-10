@@ -65,7 +65,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Hero Image with Parallax */}

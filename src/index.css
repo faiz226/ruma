@@ -9,6 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 99%;
+    --light: hsl(var(--background));
     --foreground: 0 0% 20%;
 
     --card: 0 0% 100%;
@@ -63,6 +64,7 @@ All colors MUST be HSL.
 
   .dark {
     --background: 30 20% 12%;
+    --light: hsl(var(--background));
     --foreground: 40 30% 95%;
 
     --card: 30 18% 15%;
@@ -115,9 +117,9 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
   
-  html {
-    /* scroll-behavior: smooth handled by Lenis */
-  }
+  /* html {
+     scroll-behavior: smooth handled by Lenis
+  } */
 
   @supports (mask-image: paint(squircle)) {
     /* G2 Continuity: squircle mask on all rounded elements.
@@ -184,4 +186,30 @@ All colors MUST be HSL.
   .uppercase-label {
     @apply uppercase tracking-wider text-xs font-normal;
   }
+}
+
+main {
+  /* Ensures the main content is at least the full height of the viewport */
+  min-height: 100vh;
+
+  /* Sets a solid background so the footer is hidden until revealed */
+  background: var(--light);
+
+  /* Keeps the main content visually above the footer during scroll */
+  position: relative;
+  z-index: 1;
+
+  /* Adds depth over the footer when it reveals */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+#brx-footer {
+  /* Makes the footer stay visible at the bottom when scrolling into view */
+  position: sticky;
+  
+  /* Anchors the sticky footer to the bottom edge of the viewport */
+  bottom: 0;
+  
+  /* Aligns the footer to the left edge of the viewport */
+  left: 0;
 }
